@@ -5,13 +5,13 @@ services:
   nginx:
     image: nginx:1.13.8-alpine
     depends_on:
-      - api
+      - donut
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ${LOG_PATH:-/var/log}:/var/log
     ports:
       - "5007:80"
 
-  api:
+  donut:
     ports:
       - "5008:80"
