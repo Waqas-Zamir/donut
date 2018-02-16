@@ -3,7 +3,7 @@
     "Donut": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5007",
+      "launchUrl": "http://localhost:5009",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

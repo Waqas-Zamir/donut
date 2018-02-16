@@ -27,6 +27,7 @@ namespace Donut.Extensions
             {
                 throw new ArgumentNullException(nameof(context));
             }
+
             if (destinationUri == null)
             {
                 throw new ArgumentNullException(nameof(destinationUri));
@@ -44,7 +45,7 @@ namespace Donut.Extensions
         }
 
         /// <summary>
-        /// Send proxy http request 
+        /// Send proxy http request
         /// </summary>
         /// <param name="context">The Http Context in action method.</param>
         /// <param name="requestMessage">The request message to send.</param>
