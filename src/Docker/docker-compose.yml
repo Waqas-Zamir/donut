@@ -10,7 +10,8 @@ services:
       - API_AUTHORITY=${API_AUTHORITY}
       - API_NAME=${API_NAME}
       - API_SECRET=${API_SECRET},
-      - ASSETACCOUNTSERVICEHOST=${ASSETACCOUNTSERVICEHOST}
+      - ASSETACCOUNTSERVICEHOST=${ASSETACCOUNTSERVICEHOST:-http://terminal-matching-engine},
+      - USERSERVICEHOST=${USERSERVICEHOST:-http://terminal-matching-engine}
     env_file:
       - ./default.env
     build:
