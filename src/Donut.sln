@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Donut", "Donut\Donut.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Donut.Client", "Donut.Client\Donut.Client.csproj", "{176D1153-DA5C-4642-A9F9-144082342686}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Donut.Console", "Donut.Console\Donut.Console.csproj", "{EB5EA87A-E984-4BF8-B289-3ED7286B5C50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 		{176D1153-DA5C-4642-A9F9-144082342686}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{176D1153-DA5C-4642-A9F9-144082342686}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{176D1153-DA5C-4642-A9F9-144082342686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB5EA87A-E984-4BF8-B289-3ED7286B5C50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB5EA87A-E984-4BF8-B289-3ED7286B5C50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB5EA87A-E984-4BF8-B289-3ED7286B5C50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB5EA87A-E984-4BF8-B289-3ED7286B5C50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Version>0.0.1-developer</Version>
+    <Authors>Ironclad Contributers</Authors>
+    <Company>Lykke</Company>
+    <Product>Donut</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IdentityModel.OidcClient" Version="2.4.0" />
+    <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Donut.Client\Donut.Client.csproj" />
+  </ItemGroup>
+
+</Project>
