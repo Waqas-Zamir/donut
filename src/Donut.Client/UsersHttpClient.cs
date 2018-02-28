@@ -12,7 +12,7 @@ namespace Donut.Client
     /// </summary>
     public sealed class UsersHttpClient : HttpClientBase, IUsersClient
     {
-        private const string ApiPath = "/api/users";
+        private const string ApiPath = "/api/user";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersHttpClient"/> class.

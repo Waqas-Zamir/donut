@@ -12,7 +12,7 @@ namespace Donut.Client
     /// </summary>
     public class AssetAccountsHttpClient : HttpClientBase, IAssetAccountsHttpClient
     {
-        private const string ApiPath = "/api/assetAccounts";
+        private const string ApiPath = "/api/assetAccount";
 
         public AssetAccountsHttpClient(string authority, HttpMessageHandler innerHandler = null)
             : base(authority, innerHandler)

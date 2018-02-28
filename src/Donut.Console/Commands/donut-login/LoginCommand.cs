@@ -15,7 +15,7 @@ namespace Donut.Console.Commands
 
     internal class LoginCommand : ICommand
     {
-        public const string DefaultAuthority = "https://auth.lykkecloud.com";
+        public const string DefaultAuthority = "https://auth-test.lykkecloud.com";
         public const string DefaultService = "http://localhost:5009";
 
         private Api api;

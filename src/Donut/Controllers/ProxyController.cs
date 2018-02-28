@@ -10,7 +10,7 @@ namespace Donut.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Options;
 
-    [Authorize]
+    // [Authorize]
     public class ProxyController : ControllerBase
     {
         private readonly string assetAccountServiceHost;
@@ -32,7 +32,7 @@ namespace Donut.Controllers
             await this.HttpContext.ProxyRequest(uri);
         }
 
-        [Route("api/users/{*url}")]
+        [Route("api/user/{*url}")]
         public async Task UsersHandlerAsync()
         {
             var uri = new Uri(string.Concat(

@@ -26,7 +26,7 @@ namespace Donut.Console.Commands
 
             // arguments
             var argumentUserId = app.Argument("id", "The user subject identifier", false);
-            var argumentClientTier = app.Argument("tier", "The user client tier", false);
+            var argumentClientTier = app.Argument("tier", string.Concat("The user client tier (", string.Join(" | ", Enum.GetNames(typeof(ClientTierDto))), ")"), false);
 
             // options
             var optionDefaultAssetAccountId = app.Option("-a|--default_account <default_account>", "The default asset account id for the user", CommandOptionType.SingleValue);
@@ -38,7 +38,7 @@ namespace Donut.Console.Commands
                 {
                     ClientTierDto tier = default(ClientTierDto);
 
-                    if ((string.IsNullOrEmpty(argumentUserId.Value) || !Enum.TryParse<ClientTierDto>(argumentClientTier.Value, true, out tier)) && !optionInteractive.HasValue())
+                    if ((string.IsNullOrEmpty(argumentUserId.Value) || !Enum.TryParse(argumentClientTier.Value, true, out tier)) && !optionInteractive.HasValue())
                     {
                         app.ShowVersionAndHelp();
                         return;
@@ -93,12 +93,12 @@ namespace Donut.Console.Commands
         {
             public User GetPrototype(User user) => user;
 
-            public bool IsValid(User user) => !string.IsNullOrEmpty(user.UserId) && user.ClientTier != default(ClientTierDto);
+            public bool IsValid(User user) => !string.IsNullOrEmpty(user.UserId);
 
             public User GetValid(User user)
             {
                 user.UserId = Safe(Prompt.GetString("User Id:", user.UserId), "Cannot create a user without a user id.");
-                user.ClientTier = user.ClientTier == default(ClientTierDto) ? Enum.Parse<ClientTierDto>(Safe(Prompt.GetString("Client Tier:", user.ClientTier.ToString()), "Cannot create a user without Client Tier")) : user.ClientTier;
+                user.ClientTier = user.ClientTier == 0 ? Enum.Parse<ClientTierDto>(Safe(Prompt.GetString("Client Tier:", user.ClientTier.ToString()), "Cannot create a user without Client Tier")) : user.ClientTier;
                 user.DefaultAssetAccountId = Prompt.GetString("Default Asset Account Id for the user [optional]:", user.DefaultAssetAccountId);
 
                 // defaults

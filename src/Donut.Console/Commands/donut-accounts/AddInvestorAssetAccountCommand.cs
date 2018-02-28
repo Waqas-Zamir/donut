@@ -27,20 +27,35 @@ namespace Donut.Console.Commands
             // arguments
             var argumentAssetAccountId = app.Argument("account", "The asset account id", false);
             var argumentOwnerId = app.Argument("id", "The user subject identifier of the owner user", false);
-            var argumentClientTier = app.Argument("tier", "The user client tier", false);
+            var argumentIntermediaryId = app.Argument("intermediary", "The intermediary asset account id", false);
+            var argumentType = app.Argument("type", string.Concat("The asset account type (", string.Join(" | ", Enum.GetNames(typeof(AssetAccountType))), ")"), false);
 
             // options
-            var optionDefaultAssetAccountId = app.Option("-a|--default_account <default_account>", "The default asset account id for the user", CommandOptionType.SingleValue);
+            var optionMarginAccount = app.Option("-ma|--margin_account <margin_account>", "The margin account id", CommandOptionType.SingleValue);
+            var optionReferenceAccount = app.Option("-ra|--reference_account <reference_account>", "The reference account id", CommandOptionType.SingleValue);
+            var optionBankIdentificationMargin = app.Option("-bim|--bank_ident_margin <bank_identification_margin>", "The bank identification margin", CommandOptionType.SingleValue);
+            var optionBankIdentificationReference = app.Option("-bir|--bank_ident_reference <bank_identification_reference>", "The bank identification reference", CommandOptionType.SingleValue);
+            var optionWithdrawalAllowed = app.Option("-wa|--withdrawal_allowed <withdrawal_allowed>", "The withdrawal allowed (true|false)", CommandOptionType.SingleValue);
             var optionInteractive = app.Option("-i|--interactive", "Enters interactive mode", CommandOptionType.NoValue);
 
             // action (for this command)
             app.OnExecute(
                 () =>
                 {
-                    if (string.IsNullOrEmpty(argumentOwnerId.Value) && !optionInteractive.HasValue())
+                    AssetAccountType type = default(AssetAccountType);
+                    if ((string.IsNullOrEmpty(argumentAssetAccountId.Value)
+                        || string.IsNullOrEmpty(argumentOwnerId.Value)
+                        || string.IsNullOrEmpty(argumentIntermediaryId.Value)
+                        || !Enum.TryParse(argumentType.Value, out type))
+                        && !optionInteractive.HasValue())
                     {
                         app.ShowVersionAndHelp();
                         return;
+                    }
+
+                    if (!bool.TryParse(optionWithdrawalAllowed.Value(), out bool withdrawalAllowed))
+                    {
+                        withdrawalAllowed = false;
                     }
 
                     var reporter = new ConsoleReporter(console, options.Verbose.HasValue(), false);
@@ -50,6 +65,13 @@ namespace Donut.Console.Commands
                     {
                         AssetAccountId = argumentAssetAccountId.Value,
                         OwnerId = argumentOwnerId.Value,
+                        IntermediaryId = argumentIntermediaryId.Value,
+                        Type = type,
+                        MarginAccount = optionMarginAccount.Value(),
+                        ReferenceAccount = optionReferenceAccount.Value(),
+                        BankIdentificationMargin = optionBankIdentificationMargin.Value(),
+                        BankIdentificationReference = optionBankIdentificationReference.Value(),
+                        WithdrawalAllowed = withdrawalAllowed,
                     };
 
                     reporter.Verbose("Prototype user (from command line arguments):");
@@ -99,7 +121,7 @@ namespace Donut.Console.Commands
                 account.AssetAccountId = Safe(Prompt.GetString("Asset Account Id:", account.AssetAccountId), "Cannot create account without account id");
                 account.OwnerId = Safe(Prompt.GetString("User Id:", account.OwnerId), "Cannot create an account without owner user id.");
                 account.IntermediaryId = Safe(Prompt.GetString("Intermediary Account:", account.IntermediaryId), "Cannot create an account without intermediary asset account id");
-                account.Type = account.Type == default(AssetAccountType) ? Enum.Parse<AssetAccountType>(Safe(Prompt.GetString("Type:", account.Type.ToString()), "Cannot create account type without type"), true) : account.Type;
+                account.Type = account.Type == default(AssetAccountType) ? Enum.Parse<AssetAccountType>(Safe(Prompt.GetString(string.Concat("Type: (", string.Join(" | ", Enum.GetNames(typeof(AssetAccountType))), ")"), account.Type.ToString()), "Cannot create account type without type"), true) : account.Type;
 
                 account.MarginAccount = Prompt.GetString("Margin Account (optional):", account.MarginAccount);
                 account.ReferenceAccount = Prompt.GetString("Reference Account (optional):", account.ReferenceAccount);

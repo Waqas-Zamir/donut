@@ -10,7 +10,7 @@ namespace Donut.Console
     {
         public static void ShowVersionAndHelp(this CommandLineApplication app)
         {
-            app.Out.WriteLine($"Authorization Server Management Console [{GetInformationalVersion(typeof(Program).Assembly)}]");
+            app.Out.WriteLine($"User and Accounts Management Console [{GetInformationalVersion(typeof(Program).Assembly)}]");
             app.Out.WriteLine();
 
             app.ShowHelp();
