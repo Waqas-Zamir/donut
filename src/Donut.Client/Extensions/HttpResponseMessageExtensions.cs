@@ -7,6 +7,7 @@ namespace Donut.Client
     using System.Threading.Tasks;
     using Newtonsoft.Json;
 
+#pragma warning disable SA1600 // Elements must be documented
     internal static class HttpResponseMessageExtensions
     {
         public static async Task<HttpResponseMessage> EnsureSuccess(this Task<HttpResponseMessage> responseTask)

@@ -14,6 +14,11 @@ namespace Donut.Client
     {
         private const string ApiPath = "/api/assetAccount";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AssetAccountsHttpClient"/> class.
+        /// </summary>
+        /// <param name="authority">The service url.</param>
+        /// <param name="innerHandler">The inner handler.</param>
         public AssetAccountsHttpClient(string authority, HttpMessageHandler innerHandler = null)
             : base(authority, innerHandler)
         {

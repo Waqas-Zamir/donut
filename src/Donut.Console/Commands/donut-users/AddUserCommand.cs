@@ -36,7 +36,7 @@ namespace Donut.Console.Commands
             app.OnExecute(
                 () =>
                 {
-                    ClientTierDto tier = default(ClientTierDto);
+                    ClientTierDto tier = default;
 
                     if ((string.IsNullOrEmpty(argumentUserId.Value) || !Enum.TryParse(argumentClientTier.Value, true, out tier)) && !optionInteractive.HasValue())
                     {

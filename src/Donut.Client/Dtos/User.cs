@@ -13,10 +13,19 @@ namespace Donut.Client
         /// </summary>
         public string UserId { get; set; }
 
+        /// <summary>
+        /// Gets or sets client tier for the user
+        /// </summary>
         public ClientTierDto ClientTier { get; set; }
 
+        /// <summary>
+        /// Gets or sets the user role
+        /// </summary>
         public UserRolesDto Role { get; set; }
 
+        /// <summary>
+        /// Gets or sets default asset account in case if user has multiple asset accounts
+        /// </summary>
         public string DefaultAssetAccountId { get; set; }
     }
 }

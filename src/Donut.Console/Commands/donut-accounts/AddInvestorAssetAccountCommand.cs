@@ -42,7 +42,7 @@ namespace Donut.Console.Commands
             app.OnExecute(
                 () =>
                 {
-                    AssetAccountType type = default(AssetAccountType);
+                    AssetAccountType type = default;
                     if ((string.IsNullOrEmpty(argumentAssetAccountId.Value)
                         || string.IsNullOrEmpty(argumentOwnerId.Value)
                         || string.IsNullOrEmpty(argumentIntermediaryId.Value)
@@ -121,7 +121,8 @@ namespace Donut.Console.Commands
                 account.AssetAccountId = Safe(Prompt.GetString("Asset Account Id:", account.AssetAccountId), "Cannot create account without account id");
                 account.OwnerId = Safe(Prompt.GetString("User Id:", account.OwnerId), "Cannot create an account without owner user id.");
                 account.IntermediaryId = Safe(Prompt.GetString("Intermediary Account:", account.IntermediaryId), "Cannot create an account without intermediary asset account id");
-                account.Type = account.Type == default(AssetAccountType) ? Enum.Parse<AssetAccountType>(Safe(Prompt.GetString(string.Concat("Type: (", string.Join(" | ", Enum.GetNames(typeof(AssetAccountType))), ")"), account.Type.ToString()), "Cannot create account type without type"), true) : account.Type;
+                account.Type = account.Type == default
+                    ? Enum.Parse<AssetAccountType>(Safe(Prompt.GetString(string.Concat("Type: (", string.Join(" | ", Enum.GetNames(typeof(AssetAccountType))), ")"), account.Type.ToString()), "Cannot create account type without type"), true) : account.Type;
 
                 account.MarginAccount = Prompt.GetString("Margin Account (optional):", account.MarginAccount);
                 account.ReferenceAccount = Prompt.GetString("Reference Account (optional):", account.ReferenceAccount);
