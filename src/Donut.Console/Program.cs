@@ -33,7 +33,7 @@
                 {
                     Formatting = Formatting.Indented,
                     NullValueHandling = NullValueHandling.Ignore,
-                    ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() }
+                    ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() }
                 };
 
             // LINK (Cameron): https://docs.microsoft.com/en-us/aspnet/core/security/data-protection/using-data-protection

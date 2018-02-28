@@ -186,7 +186,7 @@ namespace Donut.Client
         {
             var settings = new JsonSerializerSettings
             {
-                ContractResolver = new DefaultContractResolver { NamingStrategy = new SnakeCaseNamingStrategy() },
+                ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
                 NullValueHandling = NullValueHandling.Ignore,
             };
 
