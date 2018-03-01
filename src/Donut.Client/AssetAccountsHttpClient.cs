@@ -30,9 +30,7 @@ namespace Donut.Client
         /// <param name="assetAccount">The investor asset account.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task AddAssetAccountAsync(InvestorAssetAccount assetAccount, CancellationToken cancellationToken = default)
-        {
+        public async Task AddAssetAccountAsync(InvestorAssetAccount assetAccount, CancellationToken cancellationToken = default) =>
             await this.SendAsync(HttpMethod.Post, this.RelativeUrl(string.Concat(ApiPath, "/investor")), assetAccount, cancellationToken).ConfigureAwait(false);
-        }
     }
 }

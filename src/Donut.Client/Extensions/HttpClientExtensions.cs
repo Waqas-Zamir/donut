@@ -7,7 +7,6 @@ namespace Donut.Client
     using System.Threading;
     using System.Threading.Tasks;
 
-
     // LINK (Cameron): https://github.com/dotnet/corefx/blob/master/src/System.Net.Http/src/System/Net/Http/HttpClient.cs#L322
 #pragma warning disable SA1600 // Elements must be documented
     internal static class HttpClientExtensions

@@ -30,9 +30,7 @@ namespace Donut.Client
         /// <param name="user">The user.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The new user.</returns>
-        public async Task AddUserAsync(User user, CancellationToken cancellationToken = default)
-        {
+        public async Task AddUserAsync(User user, CancellationToken cancellationToken = default) =>
             await this.SendAsync<User>(HttpMethod.Post, this.RelativeUrl(ApiPath), user, cancellationToken).ConfigureAwait(false);
-        }
     }
 }
