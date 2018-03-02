@@ -51,7 +51,6 @@ namespace Donut.Console.Commands
                     {
                         UserId = argumentUserId.Value,
                         ClientTier = tier,
-                        Role = UserRolesDto.Snow_Investor,
                         DefaultAssetAccountId = optionDefaultAssetAccountId.Value(),
                     };
 
