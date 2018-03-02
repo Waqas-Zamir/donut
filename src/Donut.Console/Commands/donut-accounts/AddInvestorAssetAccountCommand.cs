@@ -31,11 +31,11 @@ namespace Donut.Console.Commands
             var argumentType = app.Argument("type", string.Concat("The asset account type (", string.Join(" | ", Enum.GetNames(typeof(AssetAccountType))), ")"), false);
 
             // options
-            var optionMarginAccount = app.Option("-ma|--margin_account <margin_account>", "The margin account id", CommandOptionType.SingleValue);
-            var optionReferenceAccount = app.Option("-ra|--reference_account <reference_account>", "The reference account id", CommandOptionType.SingleValue);
-            var optionBankIdentificationMargin = app.Option("-bim|--bank_ident_margin <bank_identification_margin>", "The bank identification margin", CommandOptionType.SingleValue);
-            var optionBankIdentificationReference = app.Option("-bir|--bank_ident_reference <bank_identification_reference>", "The bank identification reference", CommandOptionType.SingleValue);
-            var optionWithdrawalAllowed = app.Option("-wa|--withdrawal_allowed <withdrawal_allowed>", "The withdrawal allowed (true|false)", CommandOptionType.SingleValue);
+            var optionMarginAccount = app.Option("--margin_account <margin_account>", "The margin account id", CommandOptionType.SingleValue);
+            var optionReferenceAccount = app.Option("--reference_account <reference_account>", "The reference account id", CommandOptionType.SingleValue);
+            var optionBankIdentificationMargin = app.Option("--bank_ident_margin <bank_identification_margin>", "The bank identification margin", CommandOptionType.SingleValue);
+            var optionBankIdentificationReference = app.Option("--bank_ident_reference <bank_identification_reference>", "The bank identification reference", CommandOptionType.SingleValue);
+            var optionWithdrawalAllowed = app.Option("--withdrawal_allowed", "withdrawal allowed", CommandOptionType.NoValue);
             var optionInteractive = app.Option("-i|--interactive", "Enters interactive mode", CommandOptionType.NoValue);
 
             // action (for this command)
@@ -53,10 +53,7 @@ namespace Donut.Console.Commands
                         return;
                     }
 
-                    if (!bool.TryParse(optionWithdrawalAllowed.Value(), out bool withdrawalAllowed))
-                    {
-                        withdrawalAllowed = false;
-                    }
+                    var withdrawalAllowed = optionWithdrawalAllowed.HasValue();
 
                     var reporter = new ConsoleReporter(console, options.Verbose.HasValue(), false);
                     var helper = new AccountHelper();

@@ -73,7 +73,7 @@ namespace Donut.Console.Commands
                     var service = argumentService.Value;
                     if (string.IsNullOrEmpty(service))
                     {
-                        service = string.IsNullOrEmpty(optionTest.Value()) ? DefaultAuthority : DefaultService;
+                        service = string.IsNullOrEmpty(optionTest.Value()) ? DefaultService : DefaultService;
                     }
 
                     // validate
@@ -146,7 +146,7 @@ namespace Donut.Console.Commands
                 Authority = this.Authority,
                 ClientId = "auth_console",
                 RedirectUri = $"http://127.0.0.1:{browser.Port}",
-                Scope = "openid profile email auth_api offline_access",
+                Scope = "openid profile email users_api accounts_api offline_access",
                 FilterClaims = false,
                 Browser = browser
             };

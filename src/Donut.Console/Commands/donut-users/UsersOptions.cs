@@ -5,13 +5,13 @@ namespace Donut.Console.Commands
 {
     using McMaster.Extensions.CommandLineUtils;
 
-    // NOTE (Cameron): This command is informational only and cannot be executed (only 'show help' works) so inheriting ICommand is unnecessary.
+    // NOTE (Cameron): This command is informational only and cannot be executed so inheriting ICommand is unnecessary.
     internal static class UsersOptions
     {
         public static void Configure(CommandLineApplication app, CommandLineOptions options, IConsole console)
         {
             // description
-            app.Description = "Create users";
+            app.Description = "Create user";
             app.HelpOption();
 
             // commands

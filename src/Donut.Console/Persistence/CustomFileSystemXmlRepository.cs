@@ -14,7 +14,7 @@ namespace Donut.Console.Persistence
 
     public class CustomFileSystemXmlRepository : FileSystemXmlRepository
     {
-        private const string RepositoryFolderName = "donut.exe";
+        private const string RepositoryFolderName = "platform";
 
         public CustomFileSystemXmlRepository()
             : base(GetDefaultDataStorageDirectory(), NullLoggerFactory.Instance)

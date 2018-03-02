@@ -100,7 +100,7 @@ namespace Donut.Console.Commands
         {
             try
             {
-                ctx.Response.StatusCode = 200;
+                ctx.Response.StatusCode = (int)HttpStatusCode.OK;
                 ctx.Response.ContentType = "text/html";
                 ctx.Response.WriteAsync("<h1>You can now return to the application.</h1>");
                 ctx.Response.Body.Flush();
@@ -109,7 +109,7 @@ namespace Donut.Console.Commands
             }
             catch
             {
-                ctx.Response.StatusCode = 400;
+                ctx.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 ctx.Response.ContentType = "text/html";
                 ctx.Response.WriteAsync("<h1>Invalid request.</h1>");
                 ctx.Response.Body.Flush();
