@@ -13,5 +13,10 @@ namespace Donut
         /// http[s]://hostname[:port]
         /// </summary>
         public string AssetAccountServiceHost { get; set; }
+
+        /// <summary>
+        /// Gets or sets Host address to proxy user requests
+        /// </summary>
+        public string UserServiceHost { get; set; }
     }
 }

@@ -5,7 +5,7 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>243E6E8C-9C8C-432D-B53B-A2F0529CF05D</ProjectGuid>
     <DockerLaunchBrowser>True</DockerLaunchBrowser>
-    <DockerServiceUrl>http://localhost:5007</DockerServiceUrl>
+    <DockerServiceUrl>http://localhost:5009</DockerServiceUrl>
     <DockerServiceName>donut</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>

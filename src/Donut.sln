@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{3C7638DC-2B7E-48F0-B327-B9D7DE7DE5CE}") = "docker-compose", "Docker\docker-compose.dcproj", "{243E6E8C-9C8C-432D-B53B-A2F0529CF05D}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "Docker\docker-compose.dcproj", "{243E6E8C-9C8C-432D-B53B-A2F0529CF05D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{85F44416-EA7F-4F48-9B3B-A0A339A3693C}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,7 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
-Project("{7F4A24A1-72E2-4C3D-8A6E-C59380A8D936}") = "Donut", "Donut\Donut.csproj", "{B5510B5A-4550-4392-8018-92A772DF08EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Donut", "Donut\Donut.csproj", "{B5510B5A-4550-4392-8018-92A772DF08EC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Donut.Client", "Donut.Client\Donut.Client.csproj", "{176D1153-DA5C-4642-A9F9-144082342686}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Donut.Console", "Donut.Console\Donut.Console.csproj", "{EB5EA87A-E984-4BF8-B289-3ED7286B5C50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +34,14 @@ Global
 		{B5510B5A-4550-4392-8018-92A772DF08EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B5510B5A-4550-4392-8018-92A772DF08EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5510B5A-4550-4392-8018-92A772DF08EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{176D1153-DA5C-4642-A9F9-144082342686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{176D1153-DA5C-4642-A9F9-144082342686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{176D1153-DA5C-4642-A9F9-144082342686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{176D1153-DA5C-4642-A9F9-144082342686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB5EA87A-E984-4BF8-B289-3ED7286B5C50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB5EA87A-E984-4BF8-B289-3ED7286B5C50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB5EA87A-E984-4BF8-B289-3ED7286B5C50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB5EA87A-E984-4BF8-B289-3ED7286B5C50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
