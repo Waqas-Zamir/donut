@@ -31,6 +31,7 @@ namespace Donut.Console.Commands
             var argumentType = app.Argument("type", string.Concat("The asset account type (", string.Join(" | ", Enum.GetNames(typeof(AssetAccountType))), ")"), false);
 
             // options
+            var optionSettlementCurrency = app.Option("-c|--currency <currency_code>", "The ISO currency code for settlement currency", CommandOptionType.SingleValue);
             var optionMarginAccount = app.Option("--margin_account <margin_account>", "The margin account id", CommandOptionType.SingleValue);
             var optionReferenceAccount = app.Option("--reference_account <reference_account>", "The reference account id", CommandOptionType.SingleValue);
             var optionBankIdentificationMargin = app.Option("--bank_ident_margin <bank_identification_margin>", "The bank identification margin", CommandOptionType.SingleValue);
@@ -69,6 +70,7 @@ namespace Donut.Console.Commands
                         BankIdentificationMargin = optionBankIdentificationMargin.Value(),
                         BankIdentificationReference = optionBankIdentificationReference.Value(),
                         WithdrawalAllowed = withdrawalAllowed,
+                        SettlementCurrency = optionSettlementCurrency.Value(),
                     };
 
                     reporter.Verbose("Prototype user (from command line arguments):");

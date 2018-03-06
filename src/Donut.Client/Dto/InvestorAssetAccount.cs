@@ -52,5 +52,10 @@ namespace Donut.Client
         /// Gets or sets a value indicating whether gets or sets withdrawal allowed for this asset account
         /// </summary>
         public bool WithdrawalAllowed { get; set; }
+
+        /// <summary>
+        /// Gets or sets ISO currency code for this asset account
+        /// </summary>
+        public string SettlementCurrency { get; set; }
     }
 }
