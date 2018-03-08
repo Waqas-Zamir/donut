@@ -24,22 +24,22 @@ namespace Donut.Client
         /// </summary>
         protected static readonly JsonSerializerSettings JsonSerializerSettings = GetJsonSerializerSettings();
 
-        private readonly string authority;
+        private readonly string serviceUrl;
 
         private bool disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HttpClientBase"/> class.
         /// </summary>
-        /// <param name="authority">The authority.</param>
+        /// <param name="serviceUrl">The authority.</param>
         /// <param name="innerHandler">The inner handler.</param>
-        public HttpClientBase(string authority, HttpMessageHandler innerHandler = null)
+        public HttpClientBase(string serviceUrl, HttpMessageHandler innerHandler = null)
         {
             // TODO (Cameron): Make sure we're working with application/json.
             var handler = innerHandler ?? new HttpClientHandler();
 
             this.Client = new HttpClient(handler);
-            this.authority = authority;
+            this.serviceUrl = serviceUrl;
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Donut.Client
         /// <param name="path">The path.</param>
         /// <returns>A URL.</returns>
 #pragma warning disable CA1055
-        protected string RelativeUrl(string path) => this.authority + path;
+        protected string RelativeUrl(string path) => this.serviceUrl + path;
 
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.

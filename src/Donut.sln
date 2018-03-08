@@ -19,7 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Donut", "Donut\Donut.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Donut.Client", "Donut.Client\Donut.Client.csproj", "{176D1153-DA5C-4642-A9F9-144082342686}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Donut.Console", "Donut.Console\Donut.Console.csproj", "{EB5EA87A-E984-4BF8-B289-3ED7286B5C50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Donut.Console", "Donut.Console\Donut.Console.csproj", "{EB5EA87A-E984-4BF8-B289-3ED7286B5C50}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{729E046B-297D-4DAD-B0EE-F66EF3CD489F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Donut.Tests", "tests\Donut.Tests\Donut.Tests.csproj", "{46350DFB-3A0A-460B-8128-C4E1139F02E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,9 +46,16 @@ Global
 		{EB5EA87A-E984-4BF8-B289-3ED7286B5C50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB5EA87A-E984-4BF8-B289-3ED7286B5C50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB5EA87A-E984-4BF8-B289-3ED7286B5C50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46350DFB-3A0A-460B-8128-C4E1139F02E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46350DFB-3A0A-460B-8128-C4E1139F02E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46350DFB-3A0A-460B-8128-C4E1139F02E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46350DFB-3A0A-460B-8128-C4E1139F02E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{46350DFB-3A0A-460B-8128-C4E1139F02E8} = {729E046B-297D-4DAD-B0EE-F66EF3CD489F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {87FE8C53-1F13-4702-959E-5558C891AF65}

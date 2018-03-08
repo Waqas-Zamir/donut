@@ -14,13 +14,14 @@ namespace Donut.Client
     {
         private const string ApiPath = "/api/user";
 
+#pragma warning disable CA1054
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersHttpClient"/> class.
         /// </summary>
-        /// <param name="authority">The authority.</param>
+        /// <param name="serviceUrl">The service url.</param>
         /// <param name="innerHandler">The inner handler.</param>
-        public UsersHttpClient(string authority, HttpMessageHandler innerHandler = null)
-            : base(authority, innerHandler)
+        public UsersHttpClient(string serviceUrl, HttpMessageHandler innerHandler = null)
+            : base(serviceUrl, innerHandler)
         {
         }
 

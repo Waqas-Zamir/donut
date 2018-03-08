@@ -1,22 +1,14 @@
 ﻿// Copyright (c) Lykke Corp.
 // See the LICENSE file in the project root for more information.
 
+#pragma warning disable CA1056
+
 namespace Donut
 {
-    /// <summary>
-    /// App settings
-    /// </summary>
     public class DonutSettings
     {
-        /// <summary>
-        /// Gets or sets Host address to proxy asset account requests
-        /// http[s]://hostname[:port]
-        /// </summary>
-        public string AssetAccountServiceHost { get; set; }
+        public string TerminalMatchingEngineUrl { get; set; }
 
-        /// <summary>
-        /// Gets or sets Host address to proxy user requests
-        /// </summary>
-        public string UserServiceHost { get; set; }
+        public string TerminalWebserviceUrl { get; set; }
     }
 }
