@@ -144,7 +144,7 @@ namespace Donut.Console.Commands
             var options = new OidcClientOptions
             {
                 Authority = this.Authority,
-                ClientId = "auth_console",
+                ClientId = "donut_console",
                 RedirectUri = $"http://127.0.0.1:{browser.Port}",
                 Scope = "openid profile email users_api accounts_api offline_access",
                 FilterClaims = false,

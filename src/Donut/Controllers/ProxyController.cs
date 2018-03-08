@@ -6,28 +6,26 @@ namespace Donut.Controllers
     using System;
     using System.Threading.Tasks;
     using Donut.Extensions;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Options;
 
     // [Authorize]
     public class ProxyController : ControllerBase
     {
-        private readonly string assetAccountServiceHost;
-        private readonly string userServiceHost;
+        private readonly DonutSettings settings;
 
-        public ProxyController(IOptions<DonutSettings> appSettings)
+        public ProxyController(IOptions<DonutSettings> settings)
         {
-            this.assetAccountServiceHost = appSettings.Value.AssetAccountServiceHost;
-            this.userServiceHost = appSettings.Value.UserServiceHost;
+            this.settings = settings.Value;
         }
 
         [Route("api/assetAccount/{*url}")]
         public async Task AssetAccountHandlerAsync()
         {
-            var uri = new Uri(string.Concat(
-                                this.assetAccountServiceHost,
-                                this.Request.Path.Value.Replace("/api/assetAccount", "/api/externalAssetAccount", StringComparison.InvariantCultureIgnoreCase)));
+            var uri = new Uri(
+                string.Concat(
+                    this.settings.TerminalMatchingEngineUrl,
+                    this.Request.Path.Value.Replace("/api/assetAccount", "/api/externalAssetAccount", StringComparison.InvariantCultureIgnoreCase)));
 
             await this.HttpContext.ProxyRequest(uri);
         }
@@ -35,9 +33,7 @@ namespace Donut.Controllers
         [Route("api/user/{*url}")]
         public async Task UsersHandlerAsync()
         {
-            var uri = new Uri(string.Concat(
-                this.userServiceHost,
-                this.Request.Path.Value));
+            var uri = new Uri(string.Concat(this.settings.TerminalMatchingEngineUrl, this.Request.Path.Value));
 
             await this.HttpContext.ProxyRequest(uri);
         }
