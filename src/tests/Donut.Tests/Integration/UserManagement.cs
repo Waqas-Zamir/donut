@@ -3,6 +3,8 @@
 
 namespace Donut.Tests.Integration
 {
+    using System;
+    using System.Net;
     using System.Threading.Tasks;
     using Donut.Client;
     using Donut.Tests.Sdk;
@@ -16,10 +18,10 @@ namespace Donut.Tests.Integration
         }
 
         [Fact]
-        public async Task CanAddUserMinimum()
+        public async Task CanAddUser()
         {
             // arrange
-            var httpClient = new UsersHttpClient("https://auth-test.lykkecloud.com", this.Handler);
+            var httpClient = new UsersHttpClient("http://localhost:5009", this.Handler);
             var expectedUser = new User
             {
                 UserId = "sub",
@@ -27,20 +29,34 @@ namespace Donut.Tests.Integration
                 DefaultAssetAccountId = "account",
             };
 
-            await httpClient.AddUserAsync(expectedUser).ConfigureAwait(false);
+            var actualUser = default(User);
 
             // hook into the context (somehow) and verify
             this.AssignRequestDelegate(
-                httpContext =>
+                async httpContext =>
                 {
-                    httpContext.Response.StatusCode = 404;
-                    return Task.CompletedTask;
+                    if (httpContext.Request.Method.Equals("POST", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        actualUser = await httpContext.Request.DeserializeBody<User>().ConfigureAwait(false);
+
+                        if (actualUser != null)
+                        {
+                            httpContext.Response.StatusCode = (int)HttpStatusCode.Accepted;
+
+                            return;
+                        }
+                    }
+
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 });
 
             // act
             await httpClient.AddUserAsync(expectedUser).ConfigureAwait(false);
 
             // assert
+            Assert.Equal(expectedUser.UserId, actualUser.UserId);
+            Assert.Equal(expectedUser.ClientTier, actualUser.ClientTier);
+            Assert.Equal(expectedUser.DefaultAssetAccountId, actualUser.DefaultAssetAccountId);
         }
     }
 }

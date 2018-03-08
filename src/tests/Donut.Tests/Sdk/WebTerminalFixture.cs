@@ -42,11 +42,14 @@ namespace Donut.Tests.Sdk
                 });
         }
 
-        public void AssignRequestDelegate(RequestDelegate requestDelegate) => this.requestDelegate = requestDelegate;
+        public void AssignRequestDelegate(RequestDelegate requestDelegate)
+        {
+            this.requestDelegate = requestDelegate;
+        }
 
         private void Configure(IApplicationBuilder app)
         {
-            app.Run(this.requestDelegate);
+            app.Run(ctx => this.requestDelegate.Invoke(ctx));
         }
     }
 }
