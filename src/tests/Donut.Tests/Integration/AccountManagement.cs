@@ -41,7 +41,8 @@ namespace Donut.Tests.Integration
             this.AssignRequestDelegate(
                 async httpContext =>
                 {
-                    if (httpContext.Request.Method.Equals("POST", StringComparison.InvariantCultureIgnoreCase))
+                    if (httpContext.Request.Method.Equals("POST", StringComparison.InvariantCultureIgnoreCase)
+                        && httpContext.Request.Path.Value.Equals("/api/externalAssetAccount/investor", StringComparison.InvariantCultureIgnoreCase))
                     {
                         actualAccount = await httpContext.Request.DeserializeBody<InvestorAssetAccount>().ConfigureAwait(false);
 

@@ -35,7 +35,8 @@ namespace Donut.Tests.Integration
             this.AssignRequestDelegate(
                 async httpContext =>
                 {
-                    if (httpContext.Request.Method.Equals("POST", StringComparison.InvariantCultureIgnoreCase))
+                    if (httpContext.Request.Method.Equals("POST", StringComparison.InvariantCultureIgnoreCase)
+                        && httpContext.Request.Path.Value.Equals("/api/user", StringComparison.InvariantCultureIgnoreCase))
                     {
                         actualUser = await httpContext.Request.DeserializeBody<User>().ConfigureAwait(false);
 
