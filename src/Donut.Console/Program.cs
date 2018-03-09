@@ -123,7 +123,7 @@ namespace Donut.Console
                 }
             }
 
-            using (var tokenClient = new TokenClient(discoveryResponse.TokenEndpoint, "auth_console"))
+            using (var tokenClient = new TokenClient(discoveryResponse.TokenEndpoint, "donut_console"))
             using (var refreshTokenHandler = new RefreshTokenHandler(tokenClient, data.RefreshToken, data.AccessToken))
             using (var usersClient = new UsersHttpClient(service))
             using (var assetAccountsClient = new AssetAccountsHttpClient(service))

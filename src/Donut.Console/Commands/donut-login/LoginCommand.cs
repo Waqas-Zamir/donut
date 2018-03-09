@@ -124,7 +124,7 @@ namespace Donut.Console.Commands
                     discoveryResponse = await discoveryClient.GetAsync().ConfigureAwait(false);
                     if (!discoveryResponse.IsError)
                     {
-                        using (var tokenClient = new TokenClient(discoveryResponse.TokenEndpoint, "auth_console"))
+                        using (var tokenClient = new TokenClient(discoveryResponse.TokenEndpoint, "donut_console"))
                         using (var refreshTokenHandler = new RefreshTokenHandler(tokenClient, data.RefreshToken, data.AccessToken))
                         using (var userInfoClient = new UserInfoClient(discoveryResponse.UserInfoEndpoint, refreshTokenHandler))
                         {
