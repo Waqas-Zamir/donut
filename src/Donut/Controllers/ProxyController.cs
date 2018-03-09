@@ -6,10 +6,11 @@ namespace Donut.Controllers
     using System;
     using System.Threading.Tasks;
     using Donut.Extensions;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Options;
 
-    // [Authorize]
+    ////[Authorize]
     public class ProxyController : ControllerBase
     {
         private readonly DonutSettings settings;
