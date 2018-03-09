@@ -8,6 +8,7 @@ namespace Donut.Tests.Integration
     using System.Threading.Tasks;
     using Donut.Client;
     using Donut.Tests.Sdk;
+    using FluentAssertions;
     using Xunit;
 
     public class UserManagement : IntegrationTest
@@ -55,9 +56,7 @@ namespace Donut.Tests.Integration
             await httpClient.AddUserAsync(expectedUser).ConfigureAwait(false);
 
             // assert
-            Assert.Equal(expectedUser.UserId, actualUser.UserId);
-            Assert.Equal(expectedUser.ClientTier, actualUser.ClientTier);
-            Assert.Equal(expectedUser.DefaultAssetAccountId, actualUser.DefaultAssetAccountId);
+            actualUser.Should().BeEquivalentTo(expectedUser);
         }
     }
 }

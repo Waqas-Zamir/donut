@@ -8,6 +8,7 @@ namespace Donut.Tests.Integration
     using System.Threading.Tasks;
     using Donut.Client;
     using Donut.Tests.Sdk;
+    using FluentAssertions;
     using Xunit;
 
     public class AccountManagement : IntegrationTest
@@ -61,14 +62,7 @@ namespace Donut.Tests.Integration
             await httpClient.AddAssetAccountAsync(expectedAccount).ConfigureAwait(false);
 
             // assert
-            Assert.Equal(expectedAccount.AssetAccountId, actualAccount.AssetAccountId);
-            Assert.Equal(expectedAccount.OwnerId, actualAccount.OwnerId);
-            Assert.Equal(expectedAccount.Type, actualAccount.Type);
-            Assert.Equal(expectedAccount.IntermediaryId, actualAccount.IntermediaryId);
-            Assert.Equal(expectedAccount.MarginAccount, actualAccount.MarginAccount);
-            Assert.Equal(expectedAccount.ReferenceAccount, actualAccount.ReferenceAccount);
-            Assert.Equal(expectedAccount.BankIdentificationReference, actualAccount.BankIdentificationReference);
-            Assert.Equal(expectedAccount.WithdrawalAllowed, actualAccount.WithdrawalAllowed);
+            actualAccount.Should().BeEquivalentTo(expectedAccount);
         }
     }
 }
