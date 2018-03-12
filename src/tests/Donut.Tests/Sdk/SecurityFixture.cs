@@ -15,11 +15,13 @@ namespace Donut.Tests.Sdk
 
     public sealed class SecurityFixture
     {
+        private readonly IConfigurationRoot configuration;
+
         public SecurityFixture()
         {
-            var config = new ConfigurationBuilder().AddJsonFile("testsettings.json").Build();
+            this.configuration = new ConfigurationBuilder().AddJsonFile("testsettings.json").Build();
 
-            this.Authority = config.GetValue<string>("authority");
+            this.Authority = this.configuration.GetValue<string>("authority");
             this.Handler = this.CreateTokenHandler().GetAwaiter().GetResult();
         }
 
@@ -42,14 +44,14 @@ namespace Donut.Tests.Sdk
 
         private async Task<HttpMessageHandler> CreateTokenHandler()
         {
-            var automation = new BrowserAutomation("donut", "integration");
+            var automation = new BrowserAutomation(this.configuration.GetValue<string>("username"), this.configuration.GetValue<string>("password"));
             var browser = new Browser(automation);
             var options = new OidcClientOptions
             {
                 Authority = this.Authority,
-                ClientId = "donut_console",
+                ClientId = this.configuration.GetValue<string>("clientId"),
                 RedirectUri = $"http://127.0.0.1:{browser.Port}",
-                Scope = "openid profile users_api accounts_api",
+                Scope = this.configuration.GetValue<string>("scope"),
                 FilterClaims = false,
                 Browser = browser,
             };

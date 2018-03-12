@@ -9,6 +9,7 @@ namespace Donut.Tests.Sdk
     using System.IO;
     using System.Net.Http;
     using System.Threading;
+    using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
     using Newtonsoft.Json.Serialization;
@@ -19,7 +20,9 @@ namespace Donut.Tests.Sdk
 
         public DonutFixture()
         {
-            this.BaseUri = "http://localhost:5009";
+            var configuration = new ConfigurationBuilder().AddJsonFile("testsettings.json").Build();
+
+            this.BaseUri = configuration.GetValue<string>("serviceUrl");
             this.donutProcess = this.StartDonut();
         }
 
@@ -61,7 +64,7 @@ namespace Donut.Tests.Sdk
                 Path.DirectorySeparatorChar);
 
             Process.Start(
-                new ProcessStartInfo("dotnet", $"run -p {path} --terminalMatchingEngineUrl http://localhost:5000 --terminalWebserviceUrl http://localhost:5000'")
+                new ProcessStartInfo("dotnet", $"run -p {path} --terminalMatchingEngineUrl http://localhost:5000 --terminalWebserviceUrl http://localhost:5000")
                 {
                     UseShellExecute = true,
                 });
