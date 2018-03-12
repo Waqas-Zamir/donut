@@ -1,3 +1,8 @@
 {
-  "authority": "https://auth-test.lykkecloud.com"
+  "authority": "http://localhost:5005",
+  "clientId": "donut_console",
+  "scope": "openid profile users_api accounts_api",
+  "username": "donut",
+  "password": "integration",
+  "serviceUrl": "http://localhost:5009",
 }

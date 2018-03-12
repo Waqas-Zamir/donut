@@ -15,7 +15,7 @@ namespace Donut.Console.Commands
 
     internal class LoginCommand : ICommand
     {
-        public const string DefaultAuthority = "https://auth-test.lykkecloud.com";
+        public const string DefaultAuthority = "https://auth.lykkecloud.com";
         public const string DefaultService = "http://localhost:5009";
 
         private Api api;
@@ -124,7 +124,7 @@ namespace Donut.Console.Commands
                     discoveryResponse = await discoveryClient.GetAsync().ConfigureAwait(false);
                     if (!discoveryResponse.IsError)
                     {
-                        using (var tokenClient = new TokenClient(discoveryResponse.TokenEndpoint, "auth_console"))
+                        using (var tokenClient = new TokenClient(discoveryResponse.TokenEndpoint, "donut_console"))
                         using (var refreshTokenHandler = new RefreshTokenHandler(tokenClient, data.RefreshToken, data.AccessToken))
                         using (var userInfoClient = new UserInfoClient(discoveryResponse.UserInfoEndpoint, refreshTokenHandler))
                         {
@@ -146,7 +146,7 @@ namespace Donut.Console.Commands
                 Authority = this.Authority,
                 ClientId = "donut_console",
                 RedirectUri = $"http://127.0.0.1:{browser.Port}",
-                Scope = "openid profile email users_api accounts_api offline_access",
+                Scope = "openid profile users_api accounts_api offline_access",
                 FilterClaims = false,
                 Browser = browser
             };
