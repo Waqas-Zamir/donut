@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.0.1-developer</Version>
+    <Version>0.1.0-developer</Version>
     <Authors>Donut Contributers</Authors>
     <Company>Lykke</Company>
     <Copyright>Copyright (c) Donut Contributers. All rights reserved.</Copyright>
