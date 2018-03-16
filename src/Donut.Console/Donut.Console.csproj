@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <AssemblyName>donut</AssemblyName>
+    <AssemblyName>platform</AssemblyName>
     <Version>0.0.1-developer</Version>
     <Authors>Donut Contributers</Authors>
     <Company>Lykke</Company>

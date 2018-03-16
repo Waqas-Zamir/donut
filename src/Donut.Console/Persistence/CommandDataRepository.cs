@@ -37,7 +37,7 @@ namespace Donut.Console.Persistence
                 Authority = data.Authority,
                 AccessToken = this.protector.Unprotect(data.AccessToken),
                 RefreshToken = this.protector.Unprotect(data.RefreshToken),
-                Service = data.Service,
+                ServiceUrl = data.ServiceUrl,
             };
         }
 
@@ -56,7 +56,7 @@ namespace Donut.Console.Persistence
                 Authority = commandData.Authority,
                 AccessToken = this.protector.Protect(commandData.AccessToken),
                 RefreshToken = this.protector.Protect(commandData.RefreshToken),
-                Service = commandData.Service,
+                ServiceUrl = commandData.ServiceUrl,
             };
 
             using (var memoryStream = new MemoryStream())

@@ -92,16 +92,16 @@ namespace Donut.Console
                 new CommandData
                 {
                     Authority = LoginCommand.DefaultAuthority,
-                    Service = LoginCommand.DefaultService,
+                    ServiceUrl = LoginCommand.DefaultService,
                 };
 
             var authority = data.Authority;
-            var service = data.Service;
+            var service = data.ServiceUrl;
 
             if (options.Command is LoginCommand loginCommand)
             {
                 authority = loginCommand.Authority;
-                service = loginCommand.Service;
+                service = loginCommand.ServiceUrl;
             }
             else
             {
@@ -161,7 +161,7 @@ namespace Donut.Console
                             Authority = authority,
                             AccessToken = e.AccessToken,
                             RefreshToken = e.RefreshToken,
-                            Service = service,
+                            ServiceUrl = service,
                         });
                 };
 

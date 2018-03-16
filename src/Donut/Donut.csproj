@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+    <DebugType>Full</DebugType>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -26,6 +27,7 @@
 
   <ItemGroup>
     <TrimFilesRootFiles Include="Microsoft.AspNetCore.ApplicationInsights.HostingStartup.dll" />
+    <TrimFilesRootFiles Include="Microsoft.VisualStudio.CodeCoverage.Shim.dll" />
   </ItemGroup>
 
 
