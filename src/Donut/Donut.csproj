@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+    <DebugType>Full</DebugType>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -13,7 +14,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.0.1-developer</Version>
+    <Version>0.1.0-developer</Version>
     <Authors>Donut Contributers</Authors>
     <Company>Lykke</Company>
     <Copyright>Copyright (c) Donut Contributers. All rights reserved.</Copyright>
@@ -26,6 +27,7 @@
 
   <ItemGroup>
     <TrimFilesRootFiles Include="Microsoft.AspNetCore.ApplicationInsights.HostingStartup.dll" />
+    <TrimFilesRootFiles Include="Microsoft.VisualStudio.CodeCoverage.Shim.dll" />
   </ItemGroup>
 
 

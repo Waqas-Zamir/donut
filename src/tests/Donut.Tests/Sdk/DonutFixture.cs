@@ -78,7 +78,7 @@ namespace Donut.Tests.Sdk
                     Thread.Sleep(500);
                     try
                     {
-                        using (var response = client.GetAsync(new Uri(this.BaseUri + "/api")).GetAwaiter().GetResult())
+                        using (var response = client.GetAsync(new Uri(this.BaseUri + "/platform")).GetAwaiter().GetResult())
                         {
                             var api = JsonConvert.DeserializeObject<Api>(response.Content.ReadAsStringAsync().GetAwaiter().GetResult(), GetJsonSerializerSettings());
                             processId = int.Parse(api.ProcessId, CultureInfo.InvariantCulture);
