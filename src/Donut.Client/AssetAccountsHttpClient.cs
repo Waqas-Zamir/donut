@@ -31,7 +31,34 @@ namespace Donut.Client
         /// <param name="assetAccount">The investor asset account.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task AddAssetAccountAsync(InvestorAssetAccount assetAccount, CancellationToken cancellationToken = default) =>
-            await this.SendAsync(HttpMethod.Post, this.RelativeUrl(string.Concat(ApiPath, "/investor")), assetAccount, cancellationToken).ConfigureAwait(false);
+        public Task AddAssetAccountAsync(InvestorAssetAccount assetAccount, CancellationToken cancellationToken = default) =>
+            this.SendAsync(HttpMethod.Post, this.RelativeUrl($"{ApiPath}/investor"), assetAccount, cancellationToken);
+
+        /// <summary>
+        /// Updates investor asset account basic info
+        /// </summary>
+        /// <param name="investorAssetAccountBasicInfo">The basic info of the investor asset account.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public Task UpdateAssetAccountAsync(InvestorAssetAccountBasicInfo investorAssetAccountBasicInfo, CancellationToken cancellationToken = default) =>
+            this.SendAsync(HttpMethod.Post, this.RelativeUrl($"{ApiPath}/investor/{investorAssetAccountBasicInfo.AssetAccountId}"), investorAssetAccountBasicInfo, cancellationToken);
+
+        /// <summary>
+        /// Closes an asset account.
+        /// </summary>
+        /// <param name="assetAccountId">The asset account unique id.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public Task CloseAsync(string assetAccountId, CancellationToken cancellationToken = default) =>
+            this.PatchAsync(this.RelativeUrl($"{ApiPath}/{assetAccountId}/close"), cancellationToken);
+
+        /// <summary>
+        /// Terminates an asset account.
+        /// </summary>
+        /// <param name="assetAccountId">The asset account unique id.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public Task TerminateAsync(string assetAccountId, CancellationToken cancellationToken = default) =>
+            this.DeleteAsync(this.RelativeUrl($"{ApiPath}/{assetAccountId}"), cancellationToken);
     }
 }
