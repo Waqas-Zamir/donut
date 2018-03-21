@@ -49,7 +49,7 @@ namespace Donut.Client
         public string BankIdentificationReference { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether gets or sets withdrawal allowed for this asset account
+        /// Gets or sets a value indicating whether withdrawal allowed for this asset account
         /// </summary>
         public bool WithdrawalAllowed { get; set; }
 
