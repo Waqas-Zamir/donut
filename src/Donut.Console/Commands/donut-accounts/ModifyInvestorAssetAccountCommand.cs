@@ -25,15 +25,16 @@ namespace Donut.Console.Commands
 
             // arguments
             var argumentAssetAccountId = app.Argument("account", "The asset account id", false);
-            var argumentType = app.Argument("type", string.Concat("The asset account type (", string.Join(" | ", Enum.GetNames(typeof(AssetAccountType))), ")"), false);
-            var argumentStatus = app.Argument("status", $"The asset account status ({string.Join(" | ", Enum.GetNames(typeof(AssetAccountStatus)))})", false);
 
             // options
-            var optionMarginAccount = app.Option("--margin_account <margin_account>", "The margin account id", CommandOptionType.SingleValue);
-            var optionReferenceAccount = app.Option("--reference_account <reference_account>", "The reference account id", CommandOptionType.SingleValue);
-            var optionBankIdentificationMargin = app.Option("--bank_ident_margin <bank_identification_margin>", "The bank identification margin", CommandOptionType.SingleValue);
-            var optionBankIdentificationReference = app.Option("--bank_ident_reference <bank_identification_reference>", "The bank identification reference", CommandOptionType.SingleValue);
-            var optionWithdrawalAllowed = app.Option("--withdrawal_allowed", "withdrawal allowed", CommandOptionType.NoValue);
+            var optionType = app.Option("-t|--type", string.Concat("The asset account type (", string.Join(" | ", Enum.GetNames(typeof(AssetAccountType))), ")"), CommandOptionType.SingleValue);
+            var optionStatus = app.Option("-s|--status", $"The asset account status ({string.Join(" | ", Enum.GetNames(typeof(AssetAccountStatus)))})", CommandOptionType.SingleValue);
+
+            var optionMarginAccount = app.Option("-m|--margin_account <margin_account>", "The margin account id", CommandOptionType.SingleValue);
+            var optionReferenceAccount = app.Option("-r|--reference_account <reference_account>", "The reference account id", CommandOptionType.SingleValue);
+            var optionBankIdentificationMargin = app.Option("-b|--bank_ident_margin <bank_identification_margin>", "The bank identification margin", CommandOptionType.SingleValue);
+            var optionBankIdentificationReference = app.Option("-i|--bank_ident_reference <bank_identification_reference>", "The bank identification reference", CommandOptionType.SingleValue);
+            var optionWithdrawalAllowed = app.Option("-a|--withdrawal_allowed", "withdrawal allowed", CommandOptionType.NoValue);
             var optionInteractive = app.Option("-i|--interactive", "Enters interactive mode", CommandOptionType.NoValue);
 
             // action (for this command)
@@ -42,11 +43,14 @@ namespace Donut.Console.Commands
                 {
                     AssetAccountType type = default;
                     AssetAccountStatus status = default;
-                    if ((string.IsNullOrEmpty(argumentAssetAccountId.Value)
-                        || string.IsNullOrEmpty(argumentType.Value)
-                        || !Enum.TryParse(argumentType.Value, out type)
-                        || string.IsNullOrEmpty(argumentStatus.Value)
-                        || !Enum.TryParse(argumentStatus.Value, out status))
+                    if ((string.IsNullOrWhiteSpace(argumentAssetAccountId.Value)
+                        && (string.IsNullOrWhiteSpace(optionType.Value()) || !Enum.TryParse(optionType.Value(), out type))
+                        && (string.IsNullOrWhiteSpace(optionStatus.Value()) || !Enum.TryParse(optionStatus.Value(), out status)))
+                        && string.IsNullOrWhiteSpace(optionMarginAccount.Value())
+                        && string.IsNullOrWhiteSpace(optionReferenceAccount.Value())
+                        && string.IsNullOrWhiteSpace(optionBankIdentificationMargin.Value())
+                        && string.IsNullOrWhiteSpace(optionBankIdentificationReference.Value())
+                        && string.IsNullOrWhiteSpace(optionMarginAccount.Value())
                         && !optionInteractive.HasValue())
                     {
                         app.ShowVersionAndHelp();
@@ -61,8 +65,6 @@ namespace Donut.Console.Commands
                     var account = new InvestorAssetAccountBasicInfo
                     {
                         AssetAccountId = argumentAssetAccountId.Value,
-                        Type = type,
-                        Status = status,
                         MarginAccount = optionMarginAccount.Value(),
                         ReferenceAccount = optionReferenceAccount.Value(),
                         BankIdentificationMargin = optionBankIdentificationMargin.Value(),
@@ -70,17 +72,30 @@ namespace Donut.Console.Commands
                         WithdrawalAllowed = withdrawalAllowed,
                     };
 
+                    if (Enum.TryParse(optionType.Value(), out type))
+                    {
+                        account.Type = type;
+                    }
+
+                    if (Enum.TryParse(optionStatus.Value(), out status))
+                    {
+                        account.Status = status;
+                    }
+
                     reporter.Verbose("Prototype account (from command line arguments):");
                     reporter.Verbose(JsonConvert.SerializeObject(account));
 
-                    if (!helper.IsValid(account)
-                        || string.IsNullOrEmpty(argumentType.Value)
-                        || string.IsNullOrEmpty(argumentStatus.Value)
+                    if (!(helper.IsValid(account) || optionWithdrawalAllowed.HasValue())
                         || optionInteractive.HasValue())
                     {
                         try
                         {
                             account = helper.GetValid(account);
+
+                            if (!helper.IsValid(account))
+                            {
+                                throw new CommandParsingException(app, "Operation Aborted. please provide atleast one argument to modify.");
+                            }
                         }
                         catch (NotSupportedException ex)
                         {
@@ -112,21 +127,33 @@ namespace Donut.Console.Commands
             public InvestorAssetAccountBasicInfo GetPrototype(InvestorAssetAccountBasicInfo account) => account;
 
             public bool IsValid(InvestorAssetAccountBasicInfo account) =>
-                !string.IsNullOrEmpty(account.AssetAccountId);
+                !string.IsNullOrWhiteSpace(account.AssetAccountId)
+                && (account.Type.HasValue
+                    || account.Status.HasValue
+                    || !string.IsNullOrWhiteSpace(account.MarginAccount)
+                    || !string.IsNullOrWhiteSpace(account.ReferenceAccount)
+                    || !string.IsNullOrWhiteSpace(account.BankIdentificationMargin)
+                    || !string.IsNullOrWhiteSpace(account.BankIdentificationReference));
 
             public InvestorAssetAccountBasicInfo GetValid(InvestorAssetAccountBasicInfo account)
             {
                 account.AssetAccountId = Safe(Prompt.GetString("Asset Account Id:", account.AssetAccountId), "Cannot modify account without specifying account id");
-                account.Type = account.Type == default
-                    ? Enum.Parse<AssetAccountType>(Safe(Prompt.GetString(string.Concat("Type: (", string.Join(" | ", Enum.GetNames(typeof(AssetAccountType))), ")"), account.Type.ToString()), "Cannot modify account without specifying type"), true) : account.Type;
-                account.Status = account.Status == default
-                    ? Enum.Parse<AssetAccountStatus>(Safe(Prompt.GetString(string.Concat("Status: (", string.Join(" | ", Enum.GetNames(typeof(AssetAccountStatus))), ")"), account.Status.ToString()), "Cannot modify account without specifying status"), true) : account.Status;
 
-                account.MarginAccount = Prompt.GetString("Margin Account (optional):", account.MarginAccount);
-                account.ReferenceAccount = Prompt.GetString("Reference Account (optional):", account.ReferenceAccount);
-                account.BankIdentificationMargin = Prompt.GetString("Bank Identification Margin (optional):", account.BankIdentificationMargin);
-                account.BankIdentificationReference = Prompt.GetString("Bank Identification Reference (optional):", account.BankIdentificationReference);
-                account.WithdrawalAllowed = Prompt.GetYesNo("Withdrawal Allowed default (yes):", true, ConsoleColor.Red, ConsoleColor.DarkRed);
+                if (Enum.TryParse(Prompt.GetString(string.Concat("Type: (", string.Join(" | ", Enum.GetNames(typeof(AssetAccountType))), ")"), account.Type?.ToString()), out AssetAccountType type))
+                {
+                    account.Type = type;
+                }
+
+                if (Enum.TryParse(Prompt.GetString(string.Concat("Status: (", string.Join(" | ", Enum.GetNames(typeof(AssetAccountStatus))), ")"), account.Status?.ToString()), out AssetAccountStatus status))
+                {
+                    account.Status = status;
+                }
+
+                account.MarginAccount = Prompt.GetString("Margin Account:", account.MarginAccount);
+                account.ReferenceAccount = Prompt.GetString("Reference Account:", account.ReferenceAccount);
+                account.BankIdentificationMargin = Prompt.GetString("Bank Identification Margin:", account.BankIdentificationMargin);
+                account.BankIdentificationReference = Prompt.GetString("Bank Identification Reference:", account.BankIdentificationReference);
+                account.WithdrawalAllowed = Prompt.GetYesNo("Withdrawal Allowed:", account.WithdrawalAllowed.HasValue ? account.WithdrawalAllowed.Value : false, ConsoleColor.Red);
 
                 // defaults
                 account.MarginAccount = string.IsNullOrWhiteSpace(account.MarginAccount) ? null : account.MarginAccount;

@@ -16,12 +16,12 @@ namespace Donut.Client
         /// <summary>
         /// Gets or sets asset account type
         /// </summary>
-        public AssetAccountType Type { get; set; }
+        public AssetAccountType? Type { get; set; }
 
         /// <summary>
         /// Gets or sets asset account status
         /// </summary>
-        public AssetAccountStatus Status { get; set; }
+        public AssetAccountStatus? Status { get; set; }
 
         /// <summary>
         /// Gets or sets Margin Account Id
@@ -46,6 +46,6 @@ namespace Donut.Client
         /// <summary>
         /// Gets or sets a value indicating whether withdrawal allowed for this asset account
         /// </summary>
-        public bool WithdrawalAllowed { get; set; }
+        public bool? WithdrawalAllowed { get; set; }
     }
 }
