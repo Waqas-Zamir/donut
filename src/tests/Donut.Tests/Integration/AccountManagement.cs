@@ -62,7 +62,7 @@ namespace Donut.Tests.Integration
                 });
 
             // act
-            await this.httpClient.AddAssetAccountAsync(expectedAccount).ConfigureAwait(false);
+            await this.httpClient.AddAsync(expectedAccount).ConfigureAwait(false);
 
             // assert
             actualAccount.Should().BeEquivalentTo(expectedAccount);
@@ -107,7 +107,7 @@ namespace Donut.Tests.Integration
                 });
 
             // act
-            await this.httpClient.UpdateAssetAccountAsync(expectedAccount).ConfigureAwait(false);
+            await this.httpClient.UpdateAsync(expectedAccount).ConfigureAwait(false);
 
             // assert
             actualAccount.Should().BeEquivalentTo(expectedAccount);

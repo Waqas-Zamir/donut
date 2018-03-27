@@ -92,7 +92,7 @@ namespace Donut.Console.Commands
                         {
                             account = helper.GetValid(account);
 
-                            if (!helper.IsValid(account))
+                            if (!helper.IsValid(account) && !account.WithdrawalAllowed.HasValue)
                             {
                                 throw new CommandParsingException(app, "Operation Aborted. please provide atleast one argument to modify.");
                             }
@@ -110,7 +110,7 @@ namespace Donut.Console.Commands
                 });
         }
 
-        public async Task ExecuteAsync(CommandContext context) => await context.AssetAccountsClient.UpdateAssetAccountAsync(this.accountBasicInfo).ConfigureAwait(false);
+        public Task ExecuteAsync(CommandContext context) => context.AssetAccountsClient.UpdateAsync(this.accountBasicInfo);
 
         private static string Safe(string value, string errorMessage)
         {
@@ -153,7 +153,7 @@ namespace Donut.Console.Commands
                 account.ReferenceAccount = Prompt.GetString("Reference Account:", account.ReferenceAccount);
                 account.BankIdentificationMargin = Prompt.GetString("Bank Identification Margin:", account.BankIdentificationMargin);
                 account.BankIdentificationReference = Prompt.GetString("Bank Identification Reference:", account.BankIdentificationReference);
-                account.WithdrawalAllowed = Prompt.GetYesNo("Withdrawal Allowed:", account.WithdrawalAllowed.HasValue ? account.WithdrawalAllowed.Value : false, ConsoleColor.Red);
+                account.WithdrawalAllowed = Prompt.GetYesNo("Withdrawal Allowed:", account.WithdrawalAllowed.HasValue ? account.WithdrawalAllowed.Value : true, ConsoleColor.Red);
 
                 // defaults
                 account.MarginAccount = string.IsNullOrWhiteSpace(account.MarginAccount) ? null : account.MarginAccount;

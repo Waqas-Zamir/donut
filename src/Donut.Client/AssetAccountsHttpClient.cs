@@ -31,7 +31,7 @@ namespace Donut.Client
         /// <param name="assetAccount">The investor asset account.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public Task AddAssetAccountAsync(InvestorAssetAccount assetAccount, CancellationToken cancellationToken = default) =>
+        public Task AddAsync(InvestorAssetAccount assetAccount, CancellationToken cancellationToken = default) =>
             this.SendAsync(HttpMethod.Post, this.RelativeUrl($"{ApiPath}/investor"), assetAccount, cancellationToken);
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Donut.Client
         /// <param name="investorAssetAccountBasicInfo">The basic info of the investor asset account.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public Task UpdateAssetAccountAsync(InvestorAssetAccountBasicInfo investorAssetAccountBasicInfo, CancellationToken cancellationToken = default) =>
+        public Task UpdateAsync(InvestorAssetAccountBasicInfo investorAssetAccountBasicInfo, CancellationToken cancellationToken = default) =>
             this.SendAsync(HttpMethod.Post, this.RelativeUrl($"{ApiPath}/investor/{investorAssetAccountBasicInfo.AssetAccountId}"), investorAssetAccountBasicInfo, cancellationToken);
 
         /// <summary>

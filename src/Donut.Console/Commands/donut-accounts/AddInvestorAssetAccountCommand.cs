@@ -95,7 +95,7 @@ namespace Donut.Console.Commands
                 });
         }
 
-        public async Task ExecuteAsync(CommandContext context) => await context.AssetAccountsClient.AddAssetAccountAsync(this.account).ConfigureAwait(false);
+        public Task ExecuteAsync(CommandContext context) => context.AssetAccountsClient.AddAsync(this.account);
 
         private static string Safe(string value, string errorMessage)
         {
