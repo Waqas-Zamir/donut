@@ -36,6 +36,6 @@ namespace Donut.Client
         /// <summary>
         /// Gets or sets information about this transaction
         /// </summary>
-        public string TransactionInfo { get; set; }
+        public string ReferenceText { get; set; }
     }
 }

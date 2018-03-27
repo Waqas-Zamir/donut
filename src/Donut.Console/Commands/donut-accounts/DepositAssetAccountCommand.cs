@@ -18,7 +18,7 @@ namespace Donut.Console.Commands
         public static void Configure(CommandLineApplication app, CommandLineOptions options, IConsole console)
         {
             // description
-            app.Description = "Deposit to an asset account";
+            app.Description = "Deposits to an asset account";
             app.ExtendedHelpText = $"{Environment.NewLine}Use 'accounts deposit -i' to enter interactive mode{Environment.NewLine}";
 
             // arguments
@@ -29,6 +29,7 @@ namespace Donut.Console.Commands
 
             // options
             var optionInteractive = app.Option("-i|--interactive", "Enters interactive mode", CommandOptionType.NoValue);
+            var optionReferenceText = app.Option("-t|--info", "The reference text which describes about this transaction", CommandOptionType.SingleValue);
 
             // action (for this command)
             app.OnExecute(
@@ -57,14 +58,13 @@ namespace Donut.Console.Commands
                     var deposit = new DepositAssetAccount
                     {
                         AssetAccountId = argumentAssetAccountId.Value,
+                        ReferenceId = argumentReferenceId.Value,
+                        ReferenceText = optionReferenceText.Value(),
                         Amount = amount,
                         SettlementCurrency = argumentSettlementCurrency.Value,
                         Precision = string.IsNullOrEmpty(argumentAmount.Value)
                             ? 0
-                            : argumentAmount.Value
-                            .SkipWhile(c => c != '.')
-                            .Skip(1)
-                            .Count()
+                            : helper.GetPrecision(argumentAmount.Value)
                 };
 
                     reporter.Verbose("Prototype deposit (from command line arguments):");
@@ -118,14 +118,20 @@ namespace Donut.Console.Commands
                 var amountString = Safe(Prompt.GetString("Amount:", string.Format(new NumberFormatInfo() { NumberDecimalDigits = deposit.Precision }, "{0:F}", deposit.Amount)), "Cannot deposit without specifying some amount");
                 deposit.Amount = Convert.ToDecimal(amountString, CultureInfo.InvariantCulture);
                 deposit.SettlementCurrency = Safe(Prompt.GetString("Currency code:", deposit.SettlementCurrency), "Cannot deposit without specifying currency code");
+                deposit.ReferenceText = Prompt.GetString("Reference Text:", deposit.ReferenceText);
 
-                deposit.Precision = amountString
+                deposit.Precision = this.GetPrecision(amountString);
+
+                return deposit;
+            }
+
+            public int GetPrecision(string amount)
+            {
+                return amount
                     .Trim()
                     .SkipWhile(c => c != '.')
                     .Skip(1)
                     .Count();
-
-                return deposit;
             }
         }
     }

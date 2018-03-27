@@ -175,7 +175,7 @@ namespace Donut.Tests.Integration
             {
                 AssetAccountId = "AA1111",
                 ReferenceId = "RF001",
-                TransactionInfo = "Integration test AccountManagement.CanDepositToAssetAccount",
+                ReferenceText = "Integration test AccountManagement.CanDepositToAssetAccount",
                 Amount = 25000.365m,
                 Precision = 3,
                 SettlementCurrency = "EUR"
