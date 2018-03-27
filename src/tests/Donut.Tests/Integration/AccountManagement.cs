@@ -58,7 +58,7 @@ namespace Donut.Tests.Integration
                         }
                     }
 
-                        httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 });
 
             // act
@@ -100,7 +100,7 @@ namespace Donut.Tests.Integration
                             httpContext.Response.StatusCode = (int)HttpStatusCode.Accepted;
 
                             return;
-                    }
+                        }
                     }
 
                     httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -167,5 +167,47 @@ namespace Donut.Tests.Integration
             await this.httpClient.TerminateAsync(expectedAssetAccountId).ConfigureAwait(false);
         }
 
+        [Fact]
+        public async Task CanDepositToAssetAccount()
+        {
+            // arrange
+            var expectedDepositDto = new DepositAssetAccount
+            {
+                AssetAccountId = "AA1111",
+                ReferenceId = "RF001",
+                TransactionInfo = "Integration test AccountManagement.CanDepositToAssetAccount",
+                Amount = 25000.365m,
+                Precision = 3,
+                SettlementCurrency = "EUR"
+            };
+
+            var actualDepositDto = default(DepositAssetAccount);
+
+            this.AssignRequestDelegate(
+                async httpContext =>
+                {
+                    // The url and method types should match
+                    if (httpContext.Request.Method.Equals("PATCH", StringComparison.InvariantCultureIgnoreCase)
+                        && httpContext.Request.Path.Value.Equals($"/api/externalAssetAccount/{expectedDepositDto.AssetAccountId}/deposit", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        actualDepositDto = await httpContext.Request.DeserializeBody<DepositAssetAccount>().ConfigureAwait(false);
+
+                        if (actualDepositDto != null)
+                        {
+                            httpContext.Response.StatusCode = (int)HttpStatusCode.Accepted;
+
+                            return;
+                        }
+                    }
+
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                });
+
+            // act
+            await this.httpClient.DepositAsync(expectedDepositDto).ConfigureAwait(false);
+
+            // assert
+            actualDepositDto.Should().BeEquivalentTo(expectedDepositDto);
+        }
     }
 }
