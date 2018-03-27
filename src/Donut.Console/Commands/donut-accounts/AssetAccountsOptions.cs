@@ -11,11 +11,14 @@ namespace Donut.Console.Commands
         public static void Configure(CommandLineApplication app, CommandLineOptions options, IConsole console)
         {
             // description
-            app.Description = "Create asset account";
+            app.Description = "Manage asset account";
             app.HelpOption();
 
             // commands
             app.Command("add", command => AddInvestorAssetAccountCommand.Configure(command, options, console));
+            app.Command("modify", command => ModifyInvestorAssetAccountCommand.Configure(command, options, console));
+            app.Command("close", command => CloseAssetAccountCommand.Configure(command, options, console));
+            app.Command("terminate", command => TerminateAssetAccountCommand.Configure(command, options, console));
 
             // action (for this command)
             app.OnExecute(() => app.ShowVersionAndHelp());

@@ -17,6 +17,30 @@ namespace Donut.Client
         /// <param name="assetAccount">The investor asset account.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task AddAssetAccountAsync(InvestorAssetAccount assetAccount, CancellationToken cancellationToken = default);
+        Task AddAsync(InvestorAssetAccount assetAccount, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Updates investor asset account basic info
+        /// </summary>
+        /// <param name="investorAssetAccountBasicInfo">The basic info of the investor asset account.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task UpdateAsync(InvestorAssetAccountBasicInfo investorAssetAccountBasicInfo, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Closes an asset account.
+        /// </summary>
+        /// <param name="assetAccountId">The asset account unique id.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task CloseAsync(string assetAccountId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Terminates an asset account.
+        /// </summary>
+        /// <param name="assetAccountId">The asset account unique id.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task TerminateAsync(string assetAccountId, CancellationToken cancellationToken = default);
     }
 }
