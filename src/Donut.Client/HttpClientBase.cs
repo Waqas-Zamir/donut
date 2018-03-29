@@ -180,7 +180,7 @@ namespace Donut.Client
             }
             catch (HttpRequestException ex)
             {
-                throw new HttpException(HttpMethod.Delete, new Uri(requestUri), ex);
+                throw new HttpException(new HttpMethod("PATCH"), new Uri(requestUri), ex);
             }
         }
 
@@ -200,7 +200,7 @@ namespace Donut.Client
             }
             catch (HttpRequestException ex)
             {
-                throw new HttpException(HttpMethod.Delete, new Uri(requestUri), ex);
+                throw new HttpException(new HttpMethod("PATCH"), new Uri(requestUri), ex);
             }
         }
 

@@ -60,5 +60,14 @@ namespace Donut.Client
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task TerminateAsync(string assetAccountId, CancellationToken cancellationToken = default) =>
             this.DeleteAsync(this.RelativeUrl($"{ApiPath}/{assetAccountId}"), cancellationToken);
+
+        /// <summary>
+        /// Deposits on an asset account
+        /// </summary>
+        /// <param name="depositAssetAccount">A <see cref="DepositAssetAccount"/> representing deposit request</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public Task DepositAsync(DepositAssetAccount depositAssetAccount, CancellationToken cancellationToken = default) =>
+            this.PatchAsync(this.RelativeUrl($"{ApiPath}/{depositAssetAccount.AssetAccountId}/deposit"), depositAssetAccount, cancellationToken);
     }
 }

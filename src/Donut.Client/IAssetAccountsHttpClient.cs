@@ -42,5 +42,13 @@ namespace Donut.Client
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task TerminateAsync(string assetAccountId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Deposits on an asset account
+        /// </summary>
+        /// <param name="depositAssetAccount">A <see cref="DepositAssetAccount"/> representing deposit request</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task DepositAsync(DepositAssetAccount depositAssetAccount, CancellationToken cancellationToken = default);
     }
 }
