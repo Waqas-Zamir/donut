@@ -16,8 +16,8 @@ namespace Donut.Tests.Integration
     {
         private readonly AssetAccountsHttpClient httpClient;
 
-        public AccountManagement(SecurityFixture securityFixture, DonutFixture donutFixture, WebTerminalFixture webTerminalFixture)
-            : base(securityFixture, donutFixture, webTerminalFixture)
+        public AccountManagement(SecurityFixture securityFixture, DonutFixture donutFixture, WebTerminalFixture webTerminalFixture, WendyFixture wendyFixture)
+            : base(securityFixture, donutFixture, webTerminalFixture, wendyFixture)
         {
             this.httpClient = new AssetAccountsHttpClient("http://localhost:5009", this.Handler);
         }
@@ -208,6 +208,54 @@ namespace Donut.Tests.Integration
 
             // assert
             actualDepositDto.Should().BeEquivalentTo(expectedDepositDto);
+        }
+
+        [Fact]
+        public async Task CanWithdrawFromAssetAccount()
+        {
+            // arrange
+            var expected = new WithdrawAssetAccount
+            {
+                AssetAccountId = "AA1111",
+                ReferenceAccountId = "RFA001",
+                Amount = 25000.365m,
+                Timestamp = DateTime.UtcNow
+            };
+
+            WithdrawAssetAccount actual = null;
+
+            this.AssignRequestDelegate(httpContext =>
+            {
+                httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+
+                return Task.CompletedTask;
+            });
+
+            this.AssignWendyRequestDelegate(
+                async httpContext =>
+                {
+                    // The url and method types should match
+                    if (httpContext.Request.Method.Equals("POST", StringComparison.InvariantCultureIgnoreCase)
+                        && httpContext.Request.Path.Value.Equals($"/api/assetAccount/{expected.AssetAccountId}/withdraw", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        actual = await httpContext.Request.DeserializeBody<WithdrawAssetAccount>().ConfigureAwait(false);
+
+                        if (actual != null)
+                        {
+                            httpContext.Response.StatusCode = (int)HttpStatusCode.OK;
+
+                            return;
+                        }
+
+                        httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    }
+                });
+
+            // act
+            await this.httpClient.WithdrawAsync(expected).ConfigureAwait(false);
+
+            // assert
+            actual.Should().BeEquivalentTo(expected);
         }
     }
 }

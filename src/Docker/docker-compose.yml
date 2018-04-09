@@ -12,6 +12,7 @@ services:
       - API_SECRET=${API_SECRET},
       - TERMINALMATCHINGENGINEURL=${TERMINALMATCHINGENGINEURL:-http://terminal-matching-engine},
       - TERMINALWEBSERVICEURL=${TERMINALWEBSERVICEURL:-http://terminal-webservice}
+      - WENDYURL=${WENDYURL:-http://localhost:5010}
     env_file:
       - ./default.env
     build:
