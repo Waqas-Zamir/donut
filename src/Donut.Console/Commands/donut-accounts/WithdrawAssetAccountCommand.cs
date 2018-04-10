@@ -5,6 +5,7 @@ namespace Donut.Console.Commands
 {
     using System;
     using System.Globalization;
+    using System.Linq;
     using System.Threading.Tasks;
     using Donut.Client;
     using McMaster.Extensions.CommandLineUtils;
@@ -21,8 +22,8 @@ namespace Donut.Console.Commands
             app.ExtendedHelpText = $"{Environment.NewLine}Use `accounts withdraw -i` to enter interactive mode{Environment.NewLine}";
 
             // arguments
-            var argumentAssetAccountId = app.Argument("account", "The asset account id to deposit", false);
-            var argumentAmount = app.Argument("amount", "The amount to deposit", false);
+            var argumentAssetAccountId = app.Argument("account", "The asset account id to withdraw", false);
+            var argumentAmount = app.Argument("amount", "The amount to withdraw", false);
             var argumentReferenceAccount = app.Argument("reference", "The reference account id", false);
 
             // options
@@ -107,10 +108,10 @@ namespace Donut.Console.Commands
         {
             public WithdrawAssetAccount GetPrototype(WithdrawAssetAccount withdraw) => withdraw;
 
-            public bool IsValid(WithdrawAssetAccount deposit) =>
-                !string.IsNullOrWhiteSpace(deposit.AssetAccountId)
-                && !string.IsNullOrWhiteSpace(deposit.ReferenceAccountId)
-                && deposit.Amount > 0;
+            public bool IsValid(WithdrawAssetAccount withdraw) =>
+                !string.IsNullOrWhiteSpace(withdraw.AssetAccountId)
+                && !string.IsNullOrWhiteSpace(withdraw.ReferenceAccountId)
+                && withdraw.Amount > 0;
 
             public WithdrawAssetAccount GetValid(WithdrawAssetAccount withdraw)
             {
@@ -118,6 +119,11 @@ namespace Donut.Console.Commands
                 withdraw.ReferenceAccountId = Safe(Prompt.GetString("Reference Account:", withdraw.ReferenceAccountId), "Cannot withdraw without specifying reference account id");
                 var amountString = Safe(Prompt.GetString("Amount:", string.Format(new NumberFormatInfo() { NumberDecimalDigits = 2 }, "{0:F}", withdraw.Amount)), "Cannot withdraw without specifying some amount");
                 withdraw.Amount = Convert.ToDecimal(amountString, CultureInfo.InvariantCulture);
+
+                if (this.GetPrecision(amountString.TrimEnd('0')) > 0)
+                {
+                    throw new NotSupportedException("Maximum two decimal places are allowed in withdrawal amount");
+                }
 
                 if (DateTime.TryParse(Safe(Prompt.GetString("Transaction Timestamp:", withdraw.Timestamp.ToString("MM/dd/yyyy HH:mm", CultureInfo.InvariantCulture)), "Cannot withdraw without specifying account id"), out DateTime timestamp))
                 {
@@ -129,6 +135,15 @@ namespace Donut.Console.Commands
                 }
 
                 return withdraw;
+            }
+
+            private int GetPrecision(string amount)
+            {
+                return amount
+                    .Trim()
+                    .SkipWhile(c => c != '.')
+                    .Skip(1)
+                    .Count();
             }
         }
     }

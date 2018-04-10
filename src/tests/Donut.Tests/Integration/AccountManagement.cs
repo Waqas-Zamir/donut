@@ -90,7 +90,7 @@ namespace Donut.Tests.Integration
             this.AssignRequestDelegate(
                 async httpContext =>
                 {
-                    if (httpContext.Request.Method.Equals("POST", StringComparison.InvariantCultureIgnoreCase)
+                    if (httpContext.Request.Method.Equals("PATCH", StringComparison.InvariantCultureIgnoreCase)
                         && httpContext.Request.Path.Value.Equals($"/api/externalAssetAccount/investor/{expectedAccount.AssetAccountId}", StringComparison.InvariantCultureIgnoreCase))
                     {
                         actualAccount = await httpContext.Request.DeserializeBody<InvestorAssetAccountBasicInfo>().ConfigureAwait(false);
@@ -187,7 +187,7 @@ namespace Donut.Tests.Integration
                 async httpContext =>
                 {
                     // The url and method types should match
-                    if (httpContext.Request.Method.Equals("PATCH", StringComparison.InvariantCultureIgnoreCase)
+                    if (httpContext.Request.Method.Equals("POST", StringComparison.InvariantCultureIgnoreCase)
                         && httpContext.Request.Path.Value.Equals($"/api/externalAssetAccount/{expectedDepositDto.AssetAccountId}/deposit", StringComparison.InvariantCultureIgnoreCase))
                     {
                         actualDepositDto = await httpContext.Request.DeserializeBody<DepositAssetAccount>().ConfigureAwait(false);
