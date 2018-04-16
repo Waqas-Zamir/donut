@@ -26,7 +26,7 @@ namespace Donut.Console.Commands
 
         public string Authority { get; private set; }
 
-        public string Service { get; private set; }
+        public string ServiceUrl { get; private set; }
 
         public static void Configure(CommandLineApplication app, CommandLineOptions options, IConsole console)
         {
@@ -34,10 +34,10 @@ namespace Donut.Console.Commands
             app.Description = "Log in to an authorization server";
 
             // arguments
-            var argumentAuthority = app.Argument("authority", "The URL for the authorization server to log in to");
-            var argumentService = app.Argument("service", "The service url to send requests to");
+            var argumentServiceUrl = app.Argument("serviceUrl", "The service URL to send requests to");
 
             // options
+            var optionAuthority = app.Option("-a|--authority", "The URL for the authorization server to log in to", CommandOptionType.SingleValue);
             var optionTest = app.Option("-t|--test", "Uses the Lykke TEST authorization server", CommandOptionType.NoValue);
             var optionReset = app.Option("-r|--reset", "Resets the authorization context", CommandOptionType.NoValue);
             app.HelpOption();
@@ -46,14 +46,31 @@ namespace Donut.Console.Commands
             app.OnExecute(
                 () =>
                 {
-                    if (!string.IsNullOrEmpty(optionReset.Value()) && string.IsNullOrEmpty(argumentAuthority.Value) && string.IsNullOrEmpty(optionTest.Value()))
+                    if (!string.IsNullOrEmpty(optionReset.Value()) && string.IsNullOrEmpty(optionAuthority.Value()) && string.IsNullOrEmpty(optionTest.Value()))
                     {
                         // only --reset was specified
                         options.Command = new Reset();
                         return;
                     }
 
-                    var authority = argumentAuthority.Value;
+                    // service URL
+                    var service = argumentServiceUrl.Value;
+                    if (string.IsNullOrEmpty(service))
+                    {
+                        service = DefaultService;
+                    }
+
+                    // validate
+                    if (!Uri.TryCreate(service, UriKind.Absolute, out var serviceUri))
+                    {
+                        console.Error.WriteLine($"Invalid service URL specified: {service}.");
+                        return;
+                    }
+
+                    // TODO (Cameron): Perform an API check against the donut service.
+
+                    // authority
+                    var authority = optionAuthority.Value();
                     if (string.IsNullOrEmpty(authority))
                     {
                         authority = string.IsNullOrEmpty(optionTest.Value()) ? DefaultAuthority : "https://auth-test.lykkecloud.com";
@@ -67,19 +84,6 @@ namespace Donut.Console.Commands
                     if (!Uri.TryCreate(authority, UriKind.Absolute, out var authorityUri))
                     {
                         console.Error.WriteLine($"Invalid authority URL specified: {authority}.");
-                        return;
-                    }
-
-                    var service = argumentService.Value;
-                    if (string.IsNullOrEmpty(service))
-                    {
-                        service = string.IsNullOrEmpty(optionTest.Value()) ? DefaultService : DefaultService;
-                    }
-
-                    // validate
-                    if (!Uri.TryCreate(service, UriKind.Absolute, out var serviceUri))
-                    {
-                        console.Error.WriteLine($"Invalid service URL specified: {service}.");
                         return;
                     }
 
@@ -98,20 +102,41 @@ namespace Donut.Console.Commands
                             console.Error.WriteLine($"Unable to connect to: {authority}.");
                             return;
                         }
+
+                        if (api == null)
+                        {
+                            console.Error.WriteLine($"Invalid response from: {authority}.");
+                            return;
+                        }
+
+                        try
+                        {
+                            using (var response = client.GetAsync(new Uri($"{service}/platform")).GetAwaiter().GetResult())
+                            {
+                                response.EnsureSuccessStatusCode();
+                                api = JsonConvert.DeserializeObject<Api>(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
+                            }
+                        }
+                        catch (HttpRequestException)
+                        {
+                            console.Error.WriteLine($"Unable to connect to: {service}.");
+                            return;
+                        }
+
+                        if (api == null)
+                        {
+                            console.Error.WriteLine($"Invalid response from: {service}.");
+                            return;
+                        }
                     }
 
-                    if (api == null)
-                    {
-                        console.Error.WriteLine($"Invalid response from: {authority}.");
-                        return;
-                    }
-
-                    options.Command = new LoginCommand { Authority = authority, api = api, Service = service };
+                    options.Command = new LoginCommand { Authority = authority, api = api, ServiceUrl = service };
                 });
         }
 
         public async Task ExecuteAsync(CommandContext context)
         {
+            context.Console.WriteLine($"Saving Server Url: {this.ServiceUrl}");
             context.Console.WriteLine($"Logging in to {this.Authority} ({this.api.Title} v{this.api.Version} running on {this.api.OS})...");
 
             var data = context.Repository.GetCommandData();
@@ -165,7 +190,7 @@ namespace Donut.Console.Commands
                     Authority = this.Authority,
                     AccessToken = result.AccessToken,
                     RefreshToken = result.RefreshToken,
-                    Service = this.Service,
+                    ServiceUrl = this.ServiceUrl,
                 });
 
             context.Console.WriteLine($"Logged in as {result.User.Identity.Name}.");

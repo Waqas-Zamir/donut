@@ -4,29 +4,24 @@
 namespace Donut.Client
 {
     /// <summary>
-    /// Represents Investor Asset Account
+    /// Represents Update-able Investor Asset Account Basic Info
     /// </summary>
-    public class InvestorAssetAccount
+    public class InvestorAssetAccountBasicInfo
     {
         /// <summary>
-        /// Gets or sets unique identifier for the asset account
+        /// Gets or sets asset account id to update
         /// </summary>
         public string AssetAccountId { get; set; }
 
         /// <summary>
-        /// Gets or sets subject identifier of the owner user
+        /// Gets or sets asset account type
         /// </summary>
-        public string OwnerId { get; set; }
+        public AssetAccountType? Type { get; set; }
 
         /// <summary>
-        /// Gets or sets type of the asset account
+        /// Gets or sets asset account status
         /// </summary>
-        public AssetAccountType Type { get; set; }
-
-        /// <summary>
-        /// Gets or sets intermediary Asset Account Id
-        /// </summary>
-        public string IntermediaryId { get; set; }
+        public AssetAccountStatus? Status { get; set; }
 
         /// <summary>
         /// Gets or sets Margin Account Id
@@ -49,13 +44,8 @@ namespace Donut.Client
         public string BankIdentificationReference { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether withdrawal is allowed for this asset account
+        /// Gets or sets a value indicating whether withdrawal allowed for this asset account
         /// </summary>
-        public bool WithdrawalAllowed { get; set; }
-
-        /// <summary>
-        /// Gets or sets ISO currency code for this asset account
-        /// </summary>
-        public string SettlementCurrency { get; set; }
+        public bool? WithdrawalAllowed { get; set; }
     }
 }

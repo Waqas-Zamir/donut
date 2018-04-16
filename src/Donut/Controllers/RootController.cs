@@ -8,7 +8,7 @@ namespace Donut.Controllers
     using Donut;
     using Microsoft.AspNetCore.Mvc;
 
-    [Route("api")]
+    [Route("platform")]
     public class RootController : Controller
     {
         private static readonly object Version =

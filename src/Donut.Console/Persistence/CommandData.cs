@@ -11,6 +11,7 @@ namespace Donut.Console.Persistence
 
         public string RefreshToken { get; set; }
 
-        public string Service { get; set; }
+#pragma warning disable CA1056
+        public string ServiceUrl { get; set; }
     }
 }

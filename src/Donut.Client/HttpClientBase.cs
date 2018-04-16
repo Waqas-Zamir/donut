@@ -162,6 +162,49 @@ namespace Donut.Client
         }
 
         /// <summary>
+        /// Performs an asynchronous HTTP PATCH operation.
+        /// </summary>
+        /// <typeparam name="T">The type of data transfer object.</typeparam>
+        /// <param name="requestUri">The request URI.</param>
+        /// <param name="resource">The resource.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        protected async Task PatchAsync<T>(string requestUri, T resource, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                using (var content = new StringContent(JsonConvert.SerializeObject(resource, JsonSerializerSettings), Encoding.UTF8, "application/json"))
+                using (var response = await this.Client.PatchAsync(requestUri, content, cancellationToken).EnsureSuccess().ConfigureAwait(false))
+                {
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new HttpException(new HttpMethod("PATCH"), new Uri(requestUri), ex);
+            }
+        }
+
+        /// <summary>
+        /// Performs an asynchronous HTTP PATCH operation.
+        /// </summary>
+        /// <param name="requestUri">The request URI.</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        protected async Task PatchAsync(string requestUri, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                using (var response = await this.Client.PatchAsync(requestUri, null, cancellationToken).EnsureSuccess().ConfigureAwait(false))
+                {
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new HttpException(new HttpMethod("PATCH"), new Uri(requestUri), ex);
+            }
+        }
+
+        /// <summary>
         /// Returns a URL relative to the authority.
         /// </summary>
         /// <param name="path">The path.</param>

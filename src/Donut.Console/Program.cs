@@ -6,6 +6,7 @@
 namespace Donut.Console
 {
     using System;
+    using System.Net.Http;
     using System.Threading.Tasks;
     using Donut.Client;
     using Donut.Console.Commands;
@@ -91,23 +92,23 @@ namespace Donut.Console
                 new CommandData
                 {
                     Authority = LoginCommand.DefaultAuthority,
-                    Service = LoginCommand.DefaultService,
+                    ServiceUrl = LoginCommand.DefaultService,
                 };
 
             var authority = data.Authority;
-            var service = data.Service;
+            var service = data.ServiceUrl;
 
             if (options.Command is LoginCommand loginCommand)
             {
                 authority = loginCommand.Authority;
-                service = loginCommand.Service;
+                service = loginCommand.ServiceUrl;
             }
             else
             {
                 this.console.WriteLine("Executing command against ");
                 this.console.ForegroundColor = ConsoleColor.White;
                 this.console.WriteLine($"Authority: {authority}");
-                this.console.WriteLine($"Service: {service}");
+                this.console.WriteLine($"Service Url: {service}");
                 this.console.ResetColor();
                 this.console.WriteLine("...");
             }
@@ -119,6 +120,30 @@ namespace Donut.Console
                 if (discoveryResponse.IsError)
                 {
                     await this.console.Error.WriteLineAsync(discoveryResponse.Error).ConfigureAwait(false);
+                    return 500;
+                }
+            }
+
+            var api = default(Api);
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    using (var response = client.GetAsync(new Uri($"{service}/platform")).GetAwaiter().GetResult())
+                    {
+                        response.EnsureSuccessStatusCode();
+                        api = JsonConvert.DeserializeObject<Api>(response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
+                    }
+                }
+                catch (HttpRequestException)
+                {
+                    await this.console.Error.WriteLineAsync($"Unable to connect to service: {service}.").ConfigureAwait(false);
+                    return 500;
+                }
+
+                if (api == null)
+                {
+                    await this.console.Error.WriteLineAsync($"Invalid response from: {service}.").ConfigureAwait(false);
                     return 500;
                 }
             }
@@ -136,7 +161,7 @@ namespace Donut.Console
                             Authority = authority,
                             AccessToken = e.AccessToken,
                             RefreshToken = e.RefreshToken,
-                            Service = service,
+                            ServiceUrl = service,
                         });
                 };
 
@@ -159,6 +184,16 @@ namespace Donut.Console
 
                 return 0;
             }
+        }
+
+#pragma warning disable CA1812
+        private class Api
+        {
+            public string Title { get; set; }
+
+            public string Version { get; set; }
+
+            public string OS { get; set; }
         }
     }
 }

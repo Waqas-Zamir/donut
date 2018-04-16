@@ -73,7 +73,7 @@ namespace Donut.Console.Commands
                         SettlementCurrency = optionSettlementCurrency.Value(),
                     };
 
-                    reporter.Verbose("Prototype user (from command line arguments):");
+                    reporter.Verbose("Prototype account (from command line arguments):");
                     reporter.Verbose(JsonConvert.SerializeObject(account));
 
                     if (!helper.IsValid(account) || optionInteractive.HasValue())
@@ -87,7 +87,7 @@ namespace Donut.Console.Commands
                             throw new CommandParsingException(app, $"Operation Aborted. {ex.Message}", ex);
                         }
 
-                        reporter.Verbose("Validated user (from interactive console):");
+                        reporter.Verbose("Validated account (from interactive console):");
                         reporter.Verbose(JsonConvert.SerializeObject(account));
                     }
 
@@ -95,7 +95,7 @@ namespace Donut.Console.Commands
                 });
         }
 
-        public async Task ExecuteAsync(CommandContext context) => await context.AssetAccountsClient.AddAssetAccountAsync(this.account).ConfigureAwait(false);
+        public Task ExecuteAsync(CommandContext context) => context.AssetAccountsClient.AddAsync(this.account);
 
         private static string Safe(string value, string errorMessage)
         {
@@ -123,6 +123,7 @@ namespace Donut.Console.Commands
                 account.Type = account.Type == default
                     ? Enum.Parse<AssetAccountType>(Safe(Prompt.GetString(string.Concat("Type: (", string.Join(" | ", Enum.GetNames(typeof(AssetAccountType))), ")"), account.Type.ToString()), "Cannot create account type without type"), true) : account.Type;
 
+                account.SettlementCurrency = Prompt.GetString("Currency code (optional):", account.SettlementCurrency);
                 account.MarginAccount = Prompt.GetString("Margin Account (optional):", account.MarginAccount);
                 account.ReferenceAccount = Prompt.GetString("Reference Account (optional):", account.ReferenceAccount);
                 account.BankIdentificationMargin = Prompt.GetString("Bank Identification Margin (optional):", account.BankIdentificationMargin);
@@ -130,7 +131,11 @@ namespace Donut.Console.Commands
                 account.WithdrawalAllowed = Prompt.GetYesNo("Withdrawal Allowed default (yes):", true, ConsoleColor.Red, ConsoleColor.DarkRed);
 
                 // defaults
+                account.SettlementCurrency = string.IsNullOrWhiteSpace(account.SettlementCurrency) ? null : account.SettlementCurrency;
                 account.MarginAccount = string.IsNullOrWhiteSpace(account.MarginAccount) ? null : account.MarginAccount;
+                account.ReferenceAccount = string.IsNullOrWhiteSpace(account.ReferenceAccount) ? null : account.ReferenceAccount;
+                account.BankIdentificationMargin = string.IsNullOrWhiteSpace(account.BankIdentificationMargin) ? null : account.BankIdentificationMargin;
+                account.BankIdentificationReference = string.IsNullOrWhiteSpace(account.BankIdentificationReference) ? null : account.BankIdentificationReference;
 
                 return account;
             }
