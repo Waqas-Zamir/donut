@@ -17,7 +17,7 @@
     <Company>Lykke</Company>
     <Authors>Donut Contributers</Authors>
     <PackageId>Donut.Client</PackageId>
-    <Version>0.0.1-developer</Version>
+    <Version>0.2.0-developer</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

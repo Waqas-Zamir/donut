@@ -8,7 +8,7 @@
 
   <PropertyGroup>
     <AssemblyName>platform</AssemblyName>
-    <Version>0.0.1-developer</Version>
+    <Version>0.2.0-developer</Version>
     <Authors>Donut Contributers</Authors>
     <Company>Lykke</Company>
     <Copyright>Copyright (c) Lykke Corp. All rights reserved.</Copyright>
