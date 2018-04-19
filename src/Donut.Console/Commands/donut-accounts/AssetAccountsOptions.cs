@@ -20,6 +20,7 @@ namespace Donut.Console.Commands
             app.Command("close", command => CloseAssetAccountCommand.Configure(command, options, console));
             app.Command("terminate", command => TerminateAssetAccountCommand.Configure(command, options, console));
             app.Command("deposit", command => DepositAssetAccountCommand.Configure(command, options, console));
+            app.Command("withdraw", command => WithdrawAssetAccountCommand.Configure(command, options, console));
 
             // action (for this command)
             app.OnExecute(() => app.ShowVersionAndHelp());

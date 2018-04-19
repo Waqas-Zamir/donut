@@ -64,7 +64,7 @@ namespace Donut.Tests.Sdk
                 Path.DirectorySeparatorChar);
 
             Process.Start(
-                new ProcessStartInfo("dotnet", $"run -p {path} --terminalMatchingEngineUrl http://localhost:5000 --terminalWebserviceUrl http://localhost:5000")
+                new ProcessStartInfo("dotnet", $"run -p {path} --terminalMatchingEngineUrl http://localhost:5000 --terminalWebserviceUrl http://localhost:5000 --wendyUrl http://localhost:5010")
                 {
                     UseShellExecute = true,
                 });

@@ -10,5 +10,7 @@ namespace Donut
         public string TerminalMatchingEngineUrl { get; set; }
 
         public string TerminalWebserviceUrl { get; set; }
+
+        public string WendyUrl { get; set; }
     }
 }

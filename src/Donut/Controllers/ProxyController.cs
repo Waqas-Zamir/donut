@@ -20,6 +20,18 @@ namespace Donut.Controllers
             this.settings = settings.Value;
         }
 
+        [HttpPost("api/assetAccount/{assetAccountId}/withdraw")]
+        public Task WithdrawAsync()
+        {
+            var uri = new Uri($"{this.settings.WendyUrl}{this.Request.Path.Value}");
+
+            /* TODO: complete this action method with
+             * MTT-2428 Donut to Wendy integration
+             */
+
+            return this.HttpContext.ProxyRequest(uri);
+        }
+
         [Route("api/assetAccount/{*url}")]
         public async Task AssetAccountHandlerAsync()
         {

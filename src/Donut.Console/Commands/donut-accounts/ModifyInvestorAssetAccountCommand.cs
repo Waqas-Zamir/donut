@@ -33,7 +33,7 @@ namespace Donut.Console.Commands
             var optionMarginAccount = app.Option("-m|--margin_account <margin_account>", "The margin account id", CommandOptionType.SingleValue);
             var optionReferenceAccount = app.Option("-r|--reference_account <reference_account>", "The reference account id", CommandOptionType.SingleValue);
             var optionBankIdentificationMargin = app.Option("-b|--bank_ident_margin <bank_identification_margin>", "The bank identification margin", CommandOptionType.SingleValue);
-            var optionBankIdentificationReference = app.Option("-i|--bank_ident_reference <bank_identification_reference>", "The bank identification reference", CommandOptionType.SingleValue);
+            var optionBankIdentificationReference = app.Option("-e|--bank_ident_reference <bank_identification_reference>", "The bank identification reference", CommandOptionType.SingleValue);
             var optionWithdrawalAllowed = app.Option("-a|--withdrawal_allowed", "withdrawal allowed", CommandOptionType.NoValue);
             var optionInteractive = app.Option("-i|--interactive", "Enters interactive mode", CommandOptionType.NoValue);
 

@@ -13,8 +13,8 @@ namespace Donut.Tests.Integration
 
     public class UserManagement : IntegrationTest
     {
-        public UserManagement(SecurityFixture securityFixture, DonutFixture donutFixture, WebTerminalFixture webTerminalFixture)
-            : base(securityFixture, donutFixture, webTerminalFixture)
+        public UserManagement(SecurityFixture securityFixture, DonutFixture donutFixture, WebTerminalFixture webTerminalFixture, WendyFixture wendyFixture)
+            : base(securityFixture, donutFixture, webTerminalFixture, wendyFixture)
         {
         }
 
